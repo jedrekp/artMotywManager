@@ -3,8 +3,6 @@ package motyw.art.artMotywManager.domain;
 import motyw.art.artMotywManager.util.JewelerySubstance;
 import motyw.art.artMotywManager.util.JeweleryType;
 import motyw.art.artMotywManager.util.ProductAvailability;
-import motyw.art.artMotywManager.validators.AddValidation;
-import motyw.art.artMotywManager.validators.EditValidation;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.Column;
@@ -17,10 +15,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Jewelery extends Product {
     @Column(name = "jewelery_type")
-    @NotNull(groups = {AddValidation.class, EditValidation.class})
+    @NotNull
     @Enumerated(EnumType.STRING)
     private JeweleryType jeweleryType;
-    @NotNull(groups = {AddValidation.class, EditValidation.class})
+    @NotNull
     @Enumerated(EnumType.STRING)
     private JewelerySubstance substance;
 

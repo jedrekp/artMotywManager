@@ -35,7 +35,7 @@
                     </c:if>
                 </div>
 
-                <c:if test="${product['class'].name.equals('motyw.art.artMotywManagerdomain.Jewelery')}">
+                <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Jewelery')}">
                     <table>
                         <tr>
                             <th>Kategoria</th>
@@ -56,7 +56,7 @@
                     </table>
                 </c:if>
 
-                <c:if test="${product['class'].name.equals('motyw.art.artMotywManagerdomain.Clothing')}">
+                <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Clothing')}">
                     <table>
                         <tr>
                             <th>Kategoria</th>
@@ -85,12 +85,12 @@
                     <form action="<c:url value="/product/${product.id}"/>">
                         <button type="submit" class="enter-button">Strona produktu</button>
                     </form>
-                    <c:if test="${product['class'].name.equals('motyw.art.artMotywManagerdomain.Jewelery')}">
+                    <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Jewelery')}">
                         <form action="<c:url value="/jewelery/editJewelery/${product.id}"/>" method="get">
                             <button type="submit" class="edit-button">Edytuj produkt</button>
                         </form>
                     </c:if>
-                    <c:if test="${product['class'].name.equals('motyw.art.artMotywManagerdomain.Clothing')}">
+                    <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Clothing')}">
                         <form action="<c:url value="/clothing/editClothing/${product.id}"/>" method="get">
                             <button type="submit" class="edit-button">Edytuj produkt</button>
                         </form>

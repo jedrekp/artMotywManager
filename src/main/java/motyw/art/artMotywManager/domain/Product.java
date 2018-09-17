@@ -10,29 +10,27 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-import static motyw.art.artMotywManager.validators.ValidationMessages.*;
-
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Product {
     @Id
     @Column(unique = true, name = "product_id")
-    @NotNull(groups = {AddValidation.class}, message = NOT_EMPTY)
-    @Size(groups = {AddValidation.class}, min = 1, message = NOT_EMPTY)
-    @UniqueId(groups = {AddValidation.class}, message = ID_EXIST)
+    @NotNull
+    @Size(groups = {AddValidation.class}, min = 1, message = "{notEmpty}")
+    @UniqueId(groups = {AddValidation.class}, message = "{id.alreadyExists}")
     String id;
-    @Size(groups = {AddValidation.class, EditValidation.class}, max = 250, message = DESCRIPTION_TOO_LONG)
+    @Size(groups = {AddValidation.class, EditValidation.class}, max = 250, message = "{description.tooLong}")
     String description;
-    @NotNull(groups = {AddValidation.class, EditValidation.class}, message = NOT_EMPTY)
-    @Min(groups = {AddValidation.class, EditValidation.class}, value = 0, message = WRONG_PRICE_FORMAT)
-    @Max(groups = {AddValidation.class, EditValidation.class}, value = 10000, message = WRONG_PRICE_FORMAT)
+    @NotNull
+    @Min(groups = {AddValidation.class, EditValidation.class}, value = 0, message = "{price.wrongFormat}")
+    @Max(groups = {AddValidation.class, EditValidation.class}, value = 10000, message = "{price.wrongFormat}")
     double price;
-    @NotNull(groups = {AddValidation.class, EditValidation.class})
+    @NotNull
     @Enumerated(EnumType.STRING)
     ProductAvailability availability;
     @Transient
-    @ImageFile(groups = {AddValidation.class, EditValidation.class}, message = INVALID_FILE_EXTENSION)
+    @ImageFile(groups = {AddValidation.class, EditValidation.class}, message = "{image.invalidFile}")
     CommonsMultipartFile imageFile;
     @Column(name = "image_data", columnDefinition = "mediumblob")
     private byte[] imageData;
@@ -96,3 +94,4 @@ public abstract class Product {
         this.saleDate = saleDate;
     }
 }
+
