@@ -15,22 +15,21 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static motyw.art.artMotywManager.validators.ValidationMessages.*;
 
 @Entity
 public class Clothing extends Product {
-    @NotNull(groups = {AddValidation.class, EditValidation.class})
+    @NotNull
     @Column(name = "clothing_type")
     @Enumerated(EnumType.STRING)
     private ClothingType clothingType;
-    @NotNull(groups = {AddValidation.class, EditValidation.class})
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ClothingSize size;
-    @NotNull(groups = {AddValidation.class, EditValidation.class})
+    @NotNull
     @Enumerated(EnumType.STRING)
     private ClothingTheme theme;
-    @NotNull(groups = {AddValidation.class, EditValidation.class}, message = NOT_EMPTY)
-    @Size(groups = {AddValidation.class, EditValidation.class}, min = 1, message = NOT_EMPTY)
+    @NotNull
+    @Size(groups = {AddValidation.class, EditValidation.class}, min = 1, message = "{notEmpty}")
     @Column(name = "cut_type")
     private String cutType;
 
