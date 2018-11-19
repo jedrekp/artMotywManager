@@ -38,7 +38,7 @@ public class ProductService {
     }
 
     public void setProductImageData(Product product) {
-        if (product.getImageFile().getSize() != 0) {
+        if (product.getImageFile() != null && product.getImageFile().getSize() != 0) {
             product.setImageData(product.getImageFile().getBytes());
         }
     }

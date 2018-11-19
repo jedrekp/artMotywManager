@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static motyw.art.artMotywManager.util.StaticValues.*;
@@ -46,6 +45,7 @@ public class ClothingService {
             filteredClothingList = filterSize(filteredClothingList, Enum.valueOf(ClothingSize.class, size));
         if (EnumUtils.isValidEnum(ClothingTheme.class, theme))
             filteredClothingList = filterTheme(filteredClothingList, Enum.valueOf(ClothingTheme.class, theme));
+
         /*Following method will not be called when user doesn't want to filter cutType and therefore leaves the cutType field blank*/
         if (!cutType.equals(""))
             filteredClothingList = filterCutType(filteredClothingList, cutType);
@@ -53,13 +53,13 @@ public class ClothingService {
         return filteredClothingList;
     }
 
-    public Map<String, Double> getClothingSalesStatistics(Optional<int[]> monthAndYear) {
+    public Map<String, Double> getClothingSalesStatistics(int[] monthAndYear) {
         Map<String, Double> clothingSalesStatistics = new HashMap<>();
         List<Clothing> soldClothing;
-        if (monthAndYear.isPresent()) {
-            soldClothing = getAllSoldClothingForMonth(monthAndYear.get());
-        } else {
+        if (monthAndYear.length == 0) {
             soldClothing = getAllSoldClothing();
+        } else {
+            soldClothing = getAllSoldClothingForMonth(monthAndYear);
         }
         clothingSalesStatistics = getGeneralStatistics(clothingSalesStatistics, soldClothing);
         clothingSalesStatistics = getClothingTypeStatistics(clothingSalesStatistics, soldClothing);
@@ -115,7 +115,9 @@ public class ClothingService {
     }
 
     private List<Clothing> filterAvailability(List<Clothing> filteredClothingList, ProductAvailability availability) {
-        return filteredClothingList.stream().filter(clothing -> clothing.getAvailability() == availability).collect(Collectors.toList());
+        return filteredClothingList.stream()
+                .filter(clothing -> clothing.getAvailability() == availability)
+                .collect(Collectors.toList());
     }
 
     private List<Clothing> filterClothingType(List<Clothing> filteredClothingList, ClothingType clothingType) {

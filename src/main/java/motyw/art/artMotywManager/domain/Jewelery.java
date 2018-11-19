@@ -22,12 +22,11 @@ public class Jewelery extends Product {
     @Enumerated(EnumType.STRING)
     private JewelerySubstance substance;
 
-    public Jewelery(String id, ProductAvailability availability, String description, double price, CommonsMultipartFile imageFile, JeweleryType jeweleryType, JewelerySubstance substance) {
+    public Jewelery(String id, ProductAvailability availability, String description, double price, JeweleryType jeweleryType, JewelerySubstance substance) {
         this.id = id;
         this.availability =availability;
         this.description = description;
         this.price = price;
-        this.imageFile = imageFile;
         this.jeweleryType = jeweleryType;
         this.substance = substance;
     }

@@ -31,7 +31,7 @@ public abstract class Product {
     ProductAvailability availability;
     @Transient
     @ImageFile(groups = {AddValidation.class, EditValidation.class}, message = "{image.invalidFile}")
-    CommonsMultipartFile imageFile;
+    private CommonsMultipartFile imageFile;
     @Column(name = "image_data", columnDefinition = "mediumblob")
     private byte[] imageData;
     @Column(name = "sale_date")

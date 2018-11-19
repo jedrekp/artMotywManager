@@ -97,8 +97,8 @@
             </tr>
             <tr>
                 <td>inne</td>
-                <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${statistics.OTHER_TYPE_SALES}"/> szt</td>
-                <td><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${statistics.OTHER_TYPE_INCOME}"/> zł</td>
+                <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${statistics.DIFFERENT_CLOTHING_TYPE_SALES}"/> szt</td>
+                <td><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${statistics.DIFFERENT_CLOTHING_TYPE_INCOME}"/> zł</td>
             </tr>
         </table>
 
@@ -204,8 +204,8 @@
             </tr>
             <tr>
                 <td>inne</td>
-                <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${statistics.DIFFERENT_TYPE_SALES}"/> szt</td>
-                <td><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${statistics.DIFFERENT_TYPE_INCOME}"/> zł</td>
+                <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${statistics.DIFFERENT_JEWELERY_TYPE_SALES}"/> szt</td>
+                <td><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${statistics.DIFFERENT_JEWELERY_TYPE_INCOME}"/> zł</td>
             </tr>
         </table>
 

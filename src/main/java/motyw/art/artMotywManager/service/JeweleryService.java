@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static motyw.art.artMotywManager.util.StaticValues.*;
@@ -46,13 +45,13 @@ public class JeweleryService {
         return filteredJeweleryList;
     }
 
-    public Map<String, Double> getJewelerySalesStatistics(Optional<int[]> monthAndYear) {
+    public Map<String, Double> getJewelerySalesStatistics(int[] monthAndYear) {
         Map<String, Double> jewelerySalesStatistics = new HashMap<>();
         List<Jewelery> soldJewelery;
-        if (monthAndYear.isPresent()) {
-            soldJewelery = getAllSoldJeweleryForMonth(monthAndYear.get());
-        } else {
+        if (monthAndYear.length == 0) {
             soldJewelery = getAllSoldJewelery();
+        } else {
+            soldJewelery = getAllSoldJeweleryForMonth(monthAndYear);
         }
         jewelerySalesStatistics = getGeneralStatistics(jewelerySalesStatistics, soldJewelery);
         jewelerySalesStatistics = getJeweleryTypeStatistics(jewelerySalesStatistics, soldJewelery);
@@ -74,7 +73,7 @@ public class JeweleryService {
     }
 
     private Map<String, Double> getGeneralStatistics(Map<String, Double> jewelerySalesStatistics, List<Jewelery> soldJewelery) {
-        jewelerySalesStatistics.put(JEWELERY + SALES, (double)(soldJewelery.size()));
+        jewelerySalesStatistics.put(JEWELERY + SALES, (double) (soldJewelery.size()));
         jewelerySalesStatistics.put(JEWELERY + INCOME, getTotalIncomeOf(soldJewelery));
         return jewelerySalesStatistics;
     }

@@ -22,12 +22,12 @@
         <li>Wyszukaj
             <ul>
                 <li><a href="<c:url value="/jewelery/filterJewelery" />">Biżuteria</a></li>
-                <li><a href="<c:url value="/clothing/filterClothing/" />">Ubrania</a></li>
+                <li><a href="<c:url value="/clothing/filterClothing" />">Ubrania</a></li>
                 <li><a href="<c:url value="/product/showAllProducts" />">Pokaż wszystkie</a></li>
             </ul>
         </li>
     </ol>
-    <form class="search-box" id="stat-search-box" action="<c:url value="/monthlyStatistics"/>">
+    <form class="search-box" id="stat-search-box" action="<c:url value="/statisticsForMonth"/>">
         <label>Pokaż statystyki dla miesiąca : </label><br/>
         <select title="miesiąc" name="month">
             <option value="01">Styczeń</option>

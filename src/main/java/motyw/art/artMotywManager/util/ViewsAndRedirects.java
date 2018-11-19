@@ -6,8 +6,10 @@ public class ViewsAndRedirects {
     public static final String FILTER_JEWELERY_VIEW = "jeweleryFilter";
     public static final String FILTER_CLOTHING_VIEW = "clothingFilter";
     public static final String PRODUCT_LIST_VIEW = "productList";
-    public static final String ADD_NEW_PRODUCT_VIEW = "addNewProduct";
-    public static final String EDIT_PRODUCT_VIEW = "editProduct";
+    public static final String ADD_NEW_CLOTHING_VIEW = "addNewClothing";
+    public static final String ADD_NEW_JEWELERY_VIEW = "addNewJewelery";
+    public static final String EDIT_CLOTHING_VIEW = "editClothing";
+    public static final String EDIT_JEWELERY_VIEW = "editJewelery";
     public static final String MESSAGE_VIEW = "message";
 
     public static final String REDIRECT_TO_PRODUCT = "redirect:/product/";

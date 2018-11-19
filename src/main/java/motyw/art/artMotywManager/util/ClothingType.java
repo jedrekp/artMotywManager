@@ -9,7 +9,7 @@ public enum ClothingType {
     HAT_TYPE("czapka"),
     JACKET_TYPE("kurtka"),
     SUIT_TYPE("żakiet"),
-    OTHER_TYPE("inny");
+    DIFFERENT_CLOTHING_TYPE("inny");
 
     private String typeName;
 

@@ -4,7 +4,7 @@ public enum  JeweleryType {
     NECKLACE_TYPE("naszyjnik"),
     EARINGS_TYPE("kolczyki"),
     BRACELET_TYPE("bransoletka"),
-    DIFFERENT_TYPE("inny");
+    DIFFERENT_JEWELERY_TYPE("inny");
 
 
     private String typeName;

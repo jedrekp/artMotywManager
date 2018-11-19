@@ -6,7 +6,6 @@ import motyw.art.artMotywManager.util.ClothingType;
 import motyw.art.artMotywManager.util.ProductAvailability;
 import motyw.art.artMotywManager.validators.AddValidation;
 import motyw.art.artMotywManager.validators.EditValidation;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,13 +32,12 @@ public class Clothing extends Product {
     @Column(name = "cut_type")
     private String cutType;
 
-    public Clothing(String id, ProductAvailability availability, String description, double price, CommonsMultipartFile imageFile,
+    public Clothing(String id, ProductAvailability availability, String description, double price,
                     ClothingType clothingType, ClothingSize size, ClothingTheme theme, String cutType) {
         this.id = id;
         this.availability = availability;
         this.description = description;
         this.price = price;
-        this.imageFile = imageFile;
         this.clothingType = clothingType;
         this.size = size;
         this.theme = theme;

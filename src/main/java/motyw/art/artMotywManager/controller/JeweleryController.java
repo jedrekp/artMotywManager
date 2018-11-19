@@ -12,9 +12,12 @@ import motyw.art.artMotywManager.validators.EditValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -32,33 +35,51 @@ public class JeweleryController {
     private ProductService productService;
 
     @GetMapping("/addNewJewelery")
-    public String addNewJewelery(Model model) {
-        model.addAttribute("jewelery", new Jewelery());
-        model.addAttribute("available", ProductAvailability.AVAILABLE);
+    public String showAddNewJeweleryForm(Model model) {
+        model.addAttribute(new Jewelery());
+        model.addAttribute("availability", ProductAvailability.AVAILABLE);
         addJewelerySubCategoriesToModel(model);
-        return ADD_NEW_PRODUCT_VIEW;
+        return ADD_NEW_JEWELERY_VIEW;
     }
 
     @PostMapping("/addNewJewelery")
-    public String jeweleryAdded(@Validated({AddValidation.class}) Jewelery jewelery, Errors errors, Model model) {
-        if (errors.hasErrors()) {
+    public String addNewJewelery(@Validated({AddValidation.class}) Jewelery jewelery, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             addJewelerySubCategoriesToModel(model);
-            return ADD_NEW_PRODUCT_VIEW;
+            return ADD_NEW_JEWELERY_VIEW;
         }
         productService.setProductImageData(jewelery);
         productService.saveOrUpdateProduct(jewelery);
         return REDIRECT_TO_PRODUCT + jewelery.getId();
     }
 
+    @GetMapping("/editJewelery/{id}")
+    public String showEditJeweleryForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("jewelery", jeweleryService.findById(id));
+        addJewelerySubCategoriesToModel(model);
+        return EDIT_JEWELERY_VIEW;
+    }
+
+    @PostMapping("editJewelery/{id}")
+    public String editJewelery(@PathVariable("id") String id, @Validated({EditValidation.class}) Jewelery jewelery, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            addJewelerySubCategoriesToModel(model);
+            return EDIT_JEWELERY_VIEW;
+        }
+        productService.setProductImageData(jewelery);
+        productService.saveOrUpdateProduct(jewelery);
+        return REDIRECT_TO_PRODUCT + id;
+    }
+
     @GetMapping("/filterJewelery")
-    public String filterJewelery(Model model) {
+    public String showFilterJeweleryForm(Model model) {
         model.addAttribute("productAvailability", ProductAvailability.values());
         addJewelerySubCategoriesToModel(model);
         return FILTER_JEWELERY_VIEW;
     }
 
     @GetMapping("/jewelerySearchResults")
-    public String jewelerySearchResults(String priceMin, String priceMax, String availability, String jeweleryType, String substance, RedirectAttributes redirectAttributes) {
+    public String showJewelerySearchResults(String priceMin, String priceMax, String availability, String jeweleryType, String substance, RedirectAttributes redirectAttributes) {
         List<Jewelery> filteredJewelery = jeweleryService.filterJewelery(priceMin, priceMax, availability, jeweleryType, substance);
         if (filteredJewelery.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage());
@@ -66,24 +87,6 @@ public class JeweleryController {
         }
         redirectAttributes.addFlashAttribute("productList", filteredJewelery);
         return REDIRECT_TO_PRODUCT_LIST;
-    }
-
-    @GetMapping("/editJewelery/{id}")
-    public String editJeweleryForm(@PathVariable("id") String id, Model model) {
-        model.addAttribute("jewelery", jeweleryService.findById(id));
-        addJewelerySubCategoriesToModel(model);
-        return EDIT_PRODUCT_VIEW;
-    }
-
-    @PostMapping("editJewelery/{id}")
-    public String jeweleryEdited(@PathVariable("id") String id, @Validated({EditValidation.class}) Jewelery jewelery, Errors errors, Model model) {
-        if (errors.hasErrors()) {
-            addJewelerySubCategoriesToModel(model);
-            return EDIT_PRODUCT_VIEW;
-        }
-        productService.setProductImageData(jewelery);
-        productService.saveOrUpdateProduct(jewelery);
-        return REDIRECT_TO_PRODUCT + id;
     }
 
     private void addJewelerySubCategoriesToModel(Model model) {

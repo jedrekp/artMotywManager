@@ -9,7 +9,7 @@ import motyw.art.artMotywManager.validators.EditValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,33 +31,52 @@ public class ClothingController {
     private ProductService productService;
 
     @GetMapping("/addNewClothing")
-    public String addNewClothing(Model model) {
-        model.addAttribute("available", ProductAvailability.AVAILABLE);
-        addClothingSubCategoriesToModel(model);
+    public String showAddNewClothingForm(Model model) {
+        model.addAttribute("availability", ProductAvailability.AVAILABLE);
         model.addAttribute("clothing", new Clothing());
-        return ADD_NEW_PRODUCT_VIEW;
+        addClothingSubCategoriesToModel(model);
+        return ADD_NEW_CLOTHING_VIEW;
     }
 
     @PostMapping("/addNewClothing")
-    public String clothingAdded(@Validated({AddValidation.class}) Clothing clothing, Errors errors, Model model) {
-        if (errors.hasErrors()) {
+    public String addNewClothing(@Validated({AddValidation.class}) Clothing clothing, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             addClothingSubCategoriesToModel(model);
-            return ADD_NEW_PRODUCT_VIEW;
+            return ADD_NEW_CLOTHING_VIEW;
         }
         productService.setProductImageData(clothing);
         productService.saveOrUpdateProduct(clothing);
         return REDIRECT_TO_PRODUCT + clothing.getId();
     }
 
-    @GetMapping("/filterClothing/")
-    public String filterClothing(Model model) {
+    @GetMapping("/editClothing/{id}")
+    public String showEditClothingForm(@PathVariable("id") String id, Model model) {
+        model.addAttribute("clothing", clothingService.findById(id));
+        addClothingSubCategoriesToModel(model);
+        return EDIT_CLOTHING_VIEW;
+    }
+
+    @PostMapping("editClothing/{id}")
+    public String editClothing(@PathVariable("id") String id, @Validated({EditValidation.class}) Clothing clothing, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            addClothingSubCategoriesToModel(model);
+            return EDIT_CLOTHING_VIEW;
+        }
+        productService.setProductImageData(clothing);
+        productService.saveOrUpdateProduct(clothing);
+        return REDIRECT_TO_PRODUCT + id;
+    }
+
+    @GetMapping("/filterClothing")
+    public String showFilterClothingForm(Model model) {
         model.addAttribute("productAvailability", ProductAvailability.values());
         addClothingSubCategoriesToModel(model);
         return FILTER_CLOTHING_VIEW;
     }
 
     @GetMapping("/clothingSearchResults")
-    public String ClothingSearchResults(String priceMin, String priceMax, String availability, String clothingType, String size, String theme, String cutType, RedirectAttributes redirectAttributes) {
+    public String showClothingSearchResults(String priceMin, String priceMax, String availability, String clothingType,
+                                            String size, String theme, String cutType, RedirectAttributes redirectAttributes) {
         List<Clothing> filteredClothing = clothingService.filterClothing(priceMin, priceMax, availability, clothingType, size, theme, cutType.toLowerCase());
         if (filteredClothing.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage());
@@ -65,24 +84,6 @@ public class ClothingController {
         }
         redirectAttributes.addFlashAttribute("productList", filteredClothing);
         return REDIRECT_TO_PRODUCT_LIST;
-    }
-
-    @GetMapping("/editClothing/{id}")
-    public String editClothingForm(@PathVariable("id") String id, Model model) {
-        model.addAttribute("clothing", clothingService.findById(id));
-        addClothingSubCategoriesToModel(model);
-        return EDIT_PRODUCT_VIEW;
-    }
-
-    @PostMapping("editClothing/{id}")
-    public String clothingEdited(@PathVariable("id") String id, @Validated({EditValidation.class}) Clothing clothing, Errors errors, Model model) {
-        if (errors.hasErrors()) {
-            addClothingSubCategoriesToModel(model);
-            return EDIT_PRODUCT_VIEW;
-        }
-        productService.setProductImageData(clothing);
-        productService.saveOrUpdateProduct(clothing);
-        return REDIRECT_TO_PRODUCT + id;
     }
 
     private void addClothingSubCategoriesToModel(Model model) {

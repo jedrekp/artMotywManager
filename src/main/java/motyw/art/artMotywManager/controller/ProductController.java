@@ -48,16 +48,16 @@ public class ProductController {
         return REDIRECT_TO_PRODUCT_LIST;
     }
 
+    @GetMapping("/productList")
+    public String productList() {
+        return PRODUCT_LIST_VIEW;
+    }
+
     @PostMapping("/markAsSold/{id}")
     public String markAsSold(@PathVariable("id") String id) {
         Optional<Product> product = productService.findById(id);
         product.ifPresent(p -> productService.markAsSold(p));
         return REDIRECT_TO_PRODUCT + id;
-    }
-
-    @GetMapping("/productList")
-    public String productList() {
-        return PRODUCT_LIST_VIEW;
     }
 
     @PostMapping("/deleteProduct/{id}")
