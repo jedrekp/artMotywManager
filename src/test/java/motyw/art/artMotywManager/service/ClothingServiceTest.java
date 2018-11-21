@@ -79,11 +79,7 @@ class ClothingServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
     void testFilterClothes_whenAvailabilityIsDefined_andExpectMatchingClothesFound() {
-=======
-    void testFilterClothes_whenAvailabilityIsDefined_anExpectMatchingClothesFound() {
->>>>>>> 02bb88b439aa4ccf9cc32e1d6820fd0fb7c5f2d2
         List<Clothing> expectedResult = Arrays.asList(testClothing1, testClothing2, testClothing3, testClothing4, testClothing5, testClothing6);
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 ProductAvailability.SOLD.toString(), "any", "any", "any", "");
@@ -101,11 +97,7 @@ class ClothingServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
     void testFilterClothes_whenClothingTypeIsDefined_andExpectMatchingClothesFound() {
-=======
-    void testFilterClothes_whenClothingTypeIsDefined_anExpectMatchingClothesFound() {
->>>>>>> 02bb88b439aa4ccf9cc32e1d6820fd0fb7c5f2d2
         List<Clothing> expectedResult = Arrays.asList(testClothing1, testClothing2);
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", ClothingType.DRESS_TYPE.toString(), "any", "any", "");
@@ -123,11 +115,7 @@ class ClothingServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
     void testFilterClothes_whenClothingSizeIsDefined_andExpectMatchingClothesFound() {
-=======
-    void testFilterClothes_whenClothingSizeIsDefined_anExpectMatchingClothesFound() {
->>>>>>> 02bb88b439aa4ccf9cc32e1d6820fd0fb7c5f2d2
         List<Clothing> expectedResult = Arrays.asList(testClothing4, testClothing5);
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", ClothingSize.L_SIZE.toString(), "any", "");
@@ -145,11 +133,7 @@ class ClothingServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
     void testFilterClothes_whenClothingThemeIsDefined_andExpectMatchingClothesFound() {
-=======
-    void testFilterClothes_whenClothingThemeIsDefined_anExpectMatchingClothesFound() {
->>>>>>> 02bb88b439aa4ccf9cc32e1d6820fd0fb7c5f2d2
         List<Clothing> expectedResult = Arrays.asList(testClothing4, testClothing5, testClothing6);
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", "any", ClothingTheme.NO_THEME.toString(), "");
@@ -167,11 +151,7 @@ class ClothingServiceTest {
     }
 
     @Test
-<<<<<<< HEAD
     void testFilterClothes_whenModelNameIsDefined_andExpectMatchingClothesFound() {
-=======
-    void testFilterClothes_whenModelNameIsDefined_anExpectMatchingClothesFound() {
->>>>>>> 02bb88b439aa4ccf9cc32e1d6820fd0fb7c5f2d2
         List<Clothing> expectedResult = Arrays.asList(testClothing4, testClothing5, testClothing6);
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", "any", "any", TEST_CUT_TYPE_2);
