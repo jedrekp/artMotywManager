@@ -19,6 +19,7 @@ public abstract class Product {
     @NotNull
     @NotBlank(groups = {AddValidation.class}, message = "{notEmpty}")
     @UniqueId(groups = {AddValidation.class}, message = "{id.alreadyExists}")
+    @Size(groups = {AddValidation.class},max = 20, message = "{id.tooLong")
     String id;
     @Size(groups = {AddValidation.class, EditValidation.class}, max = 250, message = "{description.tooLong}")
     String description;

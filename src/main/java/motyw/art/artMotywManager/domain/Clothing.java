@@ -30,6 +30,7 @@ public class Clothing extends Product {
     private ClothingTheme theme;
     @NotNull
     @NotBlank(groups = {AddValidation.class, EditValidation.class}, message = "{notEmpty}")
+    @Size(groups = {AddValidation.class},max = 20, message = "{cutType.tooLong")
     @Column(name = "cut_type")
     private String cutType;
 
