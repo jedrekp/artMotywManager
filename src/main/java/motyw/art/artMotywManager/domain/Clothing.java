@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -28,7 +29,7 @@ public class Clothing extends Product {
     @Enumerated(EnumType.STRING)
     private ClothingTheme theme;
     @NotNull
-    @Size(groups = {AddValidation.class, EditValidation.class}, min = 1, message = "{notEmpty}")
+    @NotBlank(groups = {AddValidation.class, EditValidation.class}, message = "{notEmpty}")
     @Column(name = "cut_type")
     private String cutType;
 
@@ -41,7 +42,7 @@ public class Clothing extends Product {
         this.clothingType = clothingType;
         this.size = size;
         this.theme = theme;
-        this.cutType = cutType.toLowerCase();
+        this.cutType = cutType;
     }
 
     public Clothing() {
@@ -76,7 +77,7 @@ public class Clothing extends Product {
     }
 
     public void setCutType(String cutType) {
-        this.cutType = cutType.toLowerCase();
+        this.cutType = cutType;
     }
 }
 

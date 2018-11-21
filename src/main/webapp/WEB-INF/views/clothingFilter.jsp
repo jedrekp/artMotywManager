@@ -27,26 +27,26 @@
             <input type="text" name="priceMax" style="width: 25%" pattern="[+]?[0-9]*[.,]?[0-9]+" placeholder="max"
                    oninvalid="this.setCustomValidity('nieprawidłowy format ceny')" oninput="this.setCustomValidity('')"><br/>
             Rodzaj : <select name="clothingType">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${clothingTypes}" var="type">
                 <option value="${type}">${type.typeName}</option>
             </c:forEach>
         </select><br/>
             Rozmiar : <select name="size">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${clothingSizes}" var="size">
                 <option value="${size}">${size.sizeName}</option>
             </c:forEach>
         </select><br/>
             Motyw : <select name="theme">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${clothingThemes}" var="theme">
                 <option value="${theme}">${theme.themeName}</option>
             </c:forEach>
         </select><br/>
             Model kroju : <input type="text" name="cutType"><br/>
             Dostępność : <select name="availability">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${productAvailability}" var="availiability">
                 <option value="${availiability}">${availiability.availabilityStatus}</option>
             </c:forEach>

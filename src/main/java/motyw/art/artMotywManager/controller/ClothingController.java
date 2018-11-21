@@ -67,8 +67,8 @@ public class ClothingController {
         return REDIRECT_TO_PRODUCT + id;
     }
 
-    @GetMapping("/filterClothing")
-    public String showFilterClothingForm(Model model) {
+    @GetMapping("/filterClothes")
+    public String showFilterClothesForm(Model model) {
         model.addAttribute("productAvailability", ProductAvailability.values());
         addClothingSubCategoriesToModel(model);
         return FILTER_CLOTHING_VIEW;
@@ -77,12 +77,16 @@ public class ClothingController {
     @GetMapping("/clothingSearchResults")
     public String showClothingSearchResults(String priceMin, String priceMax, String availability, String clothingType,
                                             String size, String theme, String cutType, RedirectAttributes redirectAttributes) {
-        List<Clothing> filteredClothing = clothingService.filterClothing(priceMin, priceMax, availability, clothingType, size, theme, cutType.toLowerCase());
-        if (filteredClothing.isEmpty()) {
+
+        List<Clothing> filteredClothes = clothingService.getAllClothesInPriceRange(priceMin, priceMax);
+        if (!filteredClothes.isEmpty())
+            filteredClothes = clothingService.filterClothes(filteredClothes, availability, clothingType, size, theme, cutType);
+
+        if (filteredClothes.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage());
             return REDIRECT_TO_MESSAGE;
         }
-        redirectAttributes.addFlashAttribute("productList", filteredClothing);
+        redirectAttributes.addFlashAttribute("productList", filteredClothes);
         return REDIRECT_TO_PRODUCT_LIST;
     }
 

@@ -61,7 +61,9 @@ public class JeweleryController {
     }
 
     @PostMapping("editJewelery/{id}")
-    public String editJewelery(@PathVariable("id") String id, @Validated({EditValidation.class}) Jewelery jewelery, BindingResult result, Model model) {
+    public String editJewelery(@PathVariable("id") String id, @Validated({EditValidation.class}) Jewelery jewelery,
+                               BindingResult result, Model model) {
+
         if (result.hasErrors()) {
             addJewelerySubCategoriesToModel(model);
             return EDIT_JEWELERY_VIEW;
@@ -79,8 +81,14 @@ public class JeweleryController {
     }
 
     @GetMapping("/jewelerySearchResults")
-    public String showJewelerySearchResults(String priceMin, String priceMax, String availability, String jeweleryType, String substance, RedirectAttributes redirectAttributes) {
-        List<Jewelery> filteredJewelery = jeweleryService.filterJewelery(priceMin, priceMax, availability, jeweleryType, substance);
+    public String showJewelerySearchResults(String priceMin, String priceMax, String availability, String jeweleryType, String substance,
+                                            RedirectAttributes redirectAttributes) {
+
+        List<Jewelery> filteredJewelery = jeweleryService.getAllJeweleryInPriceRange(priceMin, priceMax);
+
+        if (!filteredJewelery.isEmpty())
+            filteredJewelery = jeweleryService.filterJewelery(filteredJewelery, availability, jeweleryType, substance);
+
         if (filteredJewelery.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage());
             return REDIRECT_TO_MESSAGE;

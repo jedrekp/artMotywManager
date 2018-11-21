@@ -32,11 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class ClothingControllerTest {
 
-    private static final String UNIQUE_ID = "uniqueId";
-    private static final String NON_UNIQUE_ID = "nonUniqueId";
-    private static final String TEST_DESCRIPTION = "testDescription";
-    private static final String TOO_LONG_DESCRIPTION = StringUtils.repeat("a", 251);
-    private static final String TEST_CUT_TYPE = "testCutType";
     @InjectMocks
     private ClothingController clothingController;
     @Mock
@@ -44,6 +39,12 @@ class ClothingControllerTest {
     @Mock
     private ProductService productServiceMock;
     private MockMvc mockMvc;
+
+    private static final String UNIQUE_ID = "uniqueId";
+    private static final String NON_UNIQUE_ID = "nonUniqueId";
+    private static final String TEST_DESCRIPTION = "testDescription";
+    private static final String TOO_LONG_DESCRIPTION = StringUtils.repeat("a", 251);
+    private static final String TEST_CUT_TYPE = "testCutType";
 
     @BeforeEach
     void setUp() {
@@ -93,7 +94,7 @@ class ClothingControllerTest {
         assertEquals(ClothingType.DRESS_TYPE, argument.getValue().getClothingType());
         assertEquals(ClothingSize.M_SIZE, argument.getValue().getSize());
         assertEquals(ClothingTheme.ABSTRACT_THEME, argument.getValue().getTheme());
-        assertEquals(TEST_CUT_TYPE.toLowerCase(), argument.getValue().getCutType());
+        assertEquals(TEST_CUT_TYPE, argument.getValue().getCutType());
     }
 
     @Test
@@ -134,6 +135,7 @@ class ClothingControllerTest {
     void testShowEditClothingForm() throws Exception {
         Clothing testClothing = new Clothing(UNIQUE_ID, ProductAvailability.AVAILABLE, TEST_DESCRIPTION, 150, ClothingType.DRESS_TYPE,
                 ClothingSize.L_SIZE, ClothingTheme.ABSTRACT_THEME, TEST_CUT_TYPE);
+
         when(clothingServiceMock.findById(UNIQUE_ID)).thenReturn(testClothing);
 
         mockMvc.perform(get("/clothing/editClothing/{id}", UNIQUE_ID))
@@ -147,7 +149,7 @@ class ClothingControllerTest {
                         hasProperty("clothingType", is(ClothingType.DRESS_TYPE)),
                         hasProperty("size", is(ClothingSize.L_SIZE)),
                         hasProperty("theme", is(ClothingTheme.ABSTRACT_THEME)),
-                        hasProperty("cutType", is(TEST_CUT_TYPE.toLowerCase())))))
+                        hasProperty("cutType", is(TEST_CUT_TYPE)))))
                 .andExpect(model().attribute("clothingTypes", ClothingType.values()))
                 .andExpect(model().attribute("clothingSizes", ClothingSize.values()))
                 .andExpect(model().attribute("clothingThemes", ClothingTheme.values()));
@@ -185,7 +187,7 @@ class ClothingControllerTest {
         assertEquals(ClothingType.DRESS_TYPE, argument.getValue().getClothingType());
         assertEquals(ClothingSize.M_SIZE, argument.getValue().getSize());
         assertEquals(ClothingTheme.ABSTRACT_THEME, argument.getValue().getTheme());
-        assertEquals(TEST_CUT_TYPE.toLowerCase(), argument.getValue().getCutType());
+        assertEquals(TEST_CUT_TYPE, argument.getValue().getCutType());
     }
 
     @Test
@@ -222,8 +224,8 @@ class ClothingControllerTest {
     }
 
     @Test
-    void testShowFilterClothingForm() throws Exception {
-        mockMvc.perform(get("/clothing/filterClothing"))
+    void testShowFilterClothesForm() throws Exception {
+        mockMvc.perform(get("/clothing/filterClothes"))
                 .andExpect(status().isOk())
                 .andExpect(view().name(FILTER_CLOTHING_VIEW))
                 .andExpect(model().attribute("productAvailability", ProductAvailability.values()))
@@ -233,9 +235,11 @@ class ClothingControllerTest {
     }
 
     @Test
-    void testShowClothingSearchResultWhenMatchingProductsFound() throws Exception {
+    void testShowClothingSearchResult_WhenMatchingProductsFound() throws Exception {
         List<Clothing> testList = Arrays.asList(new Clothing(), new Clothing());
-        when(clothingServiceMock.filterClothing("", "", "all", "all", "all", "all", ""))
+
+        when(clothingServiceMock.getAllClothesInPriceRange("", "")).thenReturn(testList);
+        when(clothingServiceMock.filterClothes(testList, "all", "all", "all", "all", ""))
                 .thenReturn(testList);
 
         mockMvc.perform(get("/clothing/clothingSearchResults")
@@ -251,19 +255,23 @@ class ClothingControllerTest {
                 .andExpect(flash().attribute("productList", testList))
                 .andExpect(flash().attribute("productList", hasSize(2)));
 
-        verify(clothingServiceMock, times(1)).filterClothing("", "", "all",
+        verify(clothingServiceMock, times(1)).getAllClothesInPriceRange("", "");
+        verify(clothingServiceMock, times(1)).filterClothes(testList, "all",
                 "all", "all", "all", "");
     }
 
     @Test
-    void testShowClothigSearchResultsWhenNoMatchingProductsFound() throws Exception {
+    void testShowClothingSearchResults_WhenNoMatchingProductsFound() throws Exception {
+        List<Clothing> testList = Arrays.asList(new Clothing(), new Clothing());
         List<Clothing> emptyTestList = new ArrayList<>();
-        when(clothingServiceMock.filterClothing("100", "300", ProductAvailability.SOLD.toString(),
+
+        when(clothingServiceMock.getAllClothesInPriceRange("200", "300")).thenReturn(testList);
+        when(clothingServiceMock.filterClothes(testList, ProductAvailability.SOLD.toString(),
                 ClothingType.DRESS_TYPE.toString(), ClothingSize.XXL_SIZE.toString(), ClothingTheme.FLORAL_THEME.toString(), TEST_CUT_TYPE))
                 .thenReturn(emptyTestList);
 
         mockMvc.perform(get("/clothing/clothingSearchResults")
-                .param("priceMin", "100")
+                .param("priceMin", "200")
                 .param("priceMax", "300")
                 .param("availability", ProductAvailability.SOLD.toString())
                 .param("clothingType", ClothingType.DRESS_TYPE.toString())
@@ -273,6 +281,32 @@ class ClothingControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/showMessage/"))
                 .andExpect(flash().attribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage()));
+
+        verify(clothingServiceMock, times(1)).getAllClothesInPriceRange("200", "300");
+        verify(clothingServiceMock, times(1)).filterClothes(testList, ProductAvailability.SOLD.toString(),
+                ClothingType.DRESS_TYPE.toString(), ClothingSize.XXL_SIZE.toString(), ClothingTheme.FLORAL_THEME.toString(), TEST_CUT_TYPE);
+    }
+
+    @Test
+    void testShowClothingSearchResults_WhenNoProductsInPriceRangeFound() throws Exception {
+        List<Clothing> emptyTestList = new ArrayList<>();
+
+        when(clothingServiceMock.getAllClothesInPriceRange("100", "125")).thenReturn(emptyTestList);
+
+        mockMvc.perform(get("/clothing/clothingSearchResults")
+                .param("priceMin", "100")
+                .param("priceMax", "125")
+                .param("availability", "all")
+                .param("clothingType", "all")
+                .param("size", "all")
+                .param("theme", "all")
+                .param("cutType", ""))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/product/showMessage/"))
+                .andExpect(flash().attribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage()));
+
+        verify(clothingServiceMock, times(1)).getAllClothesInPriceRange("100", "125");
+        verifyNoMoreInteractions(clothingServiceMock);
     }
 
 }
