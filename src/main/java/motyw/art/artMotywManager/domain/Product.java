@@ -17,7 +17,7 @@ public abstract class Product {
     @Id
     @Column(unique = true, name = "product_id")
     @NotNull
-    @Size(groups = {AddValidation.class}, min = 1, message = "{notEmpty}")
+    @NotBlank(groups = {AddValidation.class}, message = "{notEmpty}")
     @UniqueId(groups = {AddValidation.class}, message = "{id.alreadyExists}")
     String id;
     @Size(groups = {AddValidation.class, EditValidation.class}, max = 250, message = "{description.tooLong}")

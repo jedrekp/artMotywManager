@@ -45,6 +45,7 @@ class ProductControllerTest {
         MockitoAnnotations.initMocks(this);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver("/WEB-INF/views/", ".jsp");
         mockMvc = MockMvcBuilders.standaloneSetup(productController).setViewResolvers(viewResolver).build();
+
         testProductList = new ArrayList<>();
         Product testProduct1 = new Clothing();
         testProduct1.setId(VALID_ID);

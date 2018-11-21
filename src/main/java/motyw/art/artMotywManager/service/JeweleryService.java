@@ -27,22 +27,22 @@ public class JeweleryService {
         return jeweleryDao.findById(id);
     }
 
-    public List<Jewelery> filterJewelery(String priceMin, String priceMax, String availability, String jeweleryType, String substance) {
+    public List<Jewelery> getAllJeweleryInPriceRange(String priceMin, String priceMax) {
+        if (priceMin.equals("")) priceMin = MINIMUM_VALID_PRICE;
+        if (priceMax.equals("")) priceMax = MAXIMUM_VALID_PRICE;
 
-        if (priceMin.equals("")) priceMin = MINIMUM_PRICE;
-        if (priceMax.equals("")) priceMax = MAXIMUM_PRICE;
+        return jeweleryDao.getAllJeweleryInPriceRange(Double.parseDouble(priceMin), Double.parseDouble(priceMax));
+    }
 
-        List<Jewelery> filteredJeweleryList = jeweleryDao.getAllJeweleryInPriceRange(Double.parseDouble(priceMin), Double.parseDouble(priceMax));
-
-        /*Following methods will only be called when user wants to filter specific category, otherwise user selects "all" which is not a valid Enum value*/
+    public List<Jewelery> filterJewelery(List<Jewelery> listToFilter, String availability, String jeweleryType, String substance) {
         if (EnumUtils.isValidEnum(ProductAvailability.class, availability))
-            filteredJeweleryList = filterAvailability(filteredJeweleryList, Enum.valueOf(ProductAvailability.class, availability));
+            listToFilter = filterAvailability(listToFilter, Enum.valueOf(ProductAvailability.class, availability));
         if (EnumUtils.isValidEnum(JeweleryType.class, jeweleryType))
-            filteredJeweleryList = filterJeweleryType(filteredJeweleryList, Enum.valueOf(JeweleryType.class, jeweleryType));
+            listToFilter = filterJeweleryType(listToFilter, Enum.valueOf(JeweleryType.class, jeweleryType));
         if (EnumUtils.isValidEnum(JewelerySubstance.class, substance))
-            filteredJeweleryList = filterSubstance(filteredJeweleryList, Enum.valueOf(JewelerySubstance.class, substance));
+            listToFilter = filterSubstance(listToFilter, Enum.valueOf(JewelerySubstance.class, substance));
 
-        return filteredJeweleryList;
+        return listToFilter;
     }
 
     public Map<String, Double> getJewelerySalesStatistics(int[] monthAndYear) {
@@ -97,16 +97,16 @@ public class JeweleryService {
         return jewelerySalesStatistics;
     }
 
-    private List<Jewelery> filterAvailability(List<Jewelery> filteredJeweleryList, ProductAvailability availability) {
-        return filteredJeweleryList.stream().filter(jewelery -> jewelery.getAvailability() == availability).collect(Collectors.toList());
+    private List<Jewelery> filterAvailability(List<Jewelery> listToFilter, ProductAvailability availability) {
+        return listToFilter.stream().filter(jewelery -> jewelery.getAvailability() == availability).collect(Collectors.toList());
     }
 
-    private List<Jewelery> filterJeweleryType(List<Jewelery> filteredJeweleryList, JeweleryType jeweleryType) {
-        return filteredJeweleryList.stream().filter(jewelery -> jewelery.getJeweleryType() == jeweleryType).collect(Collectors.toList());
+    private List<Jewelery> filterJeweleryType(List<Jewelery> listToFilter, JeweleryType jeweleryType) {
+        return listToFilter.stream().filter(jewelery -> jewelery.getJeweleryType() == jeweleryType).collect(Collectors.toList());
     }
 
-    private List<Jewelery> filterSubstance(List<Jewelery> filteredJeweleryList, JewelerySubstance substance) {
-        return filteredJeweleryList.stream().filter(jewelery -> jewelery.getSubstance() == substance).collect(Collectors.toList());
+    private List<Jewelery> filterSubstance(List<Jewelery> listToFilter, JewelerySubstance substance) {
+        return listToFilter.stream().filter(jewelery -> jewelery.getSubstance() == substance).collect(Collectors.toList());
     }
 
 }

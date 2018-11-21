@@ -28,29 +28,28 @@ public class ClothingService {
         return clothingDao.findById(id);
     }
 
-    public List<Clothing> filterClothing
-            (String priceMin, String priceMax, String availability, String clothingType, String size, String theme, String cutType) {
+    public List<Clothing> getAllClothesInPriceRange(String priceMin, String priceMax) {
+        if (priceMin.equals("")) priceMin = MINIMUM_VALID_PRICE;
+        if (priceMax.equals("")) priceMax = MAXIMUM_VALID_PRICE;
 
-        if (priceMin.equals("")) priceMin = MINIMUM_PRICE;
-        if (priceMax.equals("")) priceMax = MAXIMUM_PRICE;
+        return clothingDao.getAllClothingInPriceRange(Double.parseDouble(priceMin), Double.parseDouble(priceMax));
+    }
 
-        List<Clothing> filteredClothingList = clothingDao.getAllClothingInPriceRange(Double.parseDouble(priceMin), Double.parseDouble(priceMax));
-
-        /*Following methods will only be called when user wants to filter specific category, otherwise user selects "all" which is not a valid Enum value*/
+    public List<Clothing> filterClothes(List<Clothing> listToFilter, String availability, String clothingType,
+                                        String size, String theme, String cutType) {
         if (EnumUtils.isValidEnum(ProductAvailability.class, availability))
-            filteredClothingList = filterAvailability(filteredClothingList, Enum.valueOf(ProductAvailability.class, availability));
+            listToFilter = filterAvailability(listToFilter, Enum.valueOf(ProductAvailability.class, availability));
         if (EnumUtils.isValidEnum(ClothingType.class, clothingType))
-            filteredClothingList = filterClothingType(filteredClothingList, Enum.valueOf(ClothingType.class, clothingType));
+            listToFilter = filterClothingType(listToFilter, Enum.valueOf(ClothingType.class, clothingType));
         if (EnumUtils.isValidEnum(ClothingSize.class, size))
-            filteredClothingList = filterSize(filteredClothingList, Enum.valueOf(ClothingSize.class, size));
+            listToFilter = filterSize(listToFilter, Enum.valueOf(ClothingSize.class, size));
         if (EnumUtils.isValidEnum(ClothingTheme.class, theme))
-            filteredClothingList = filterTheme(filteredClothingList, Enum.valueOf(ClothingTheme.class, theme));
+            listToFilter = filterTheme(listToFilter, Enum.valueOf(ClothingTheme.class, theme));
 
-        /*Following method will not be called when user doesn't want to filter cutType and therefore leaves the cutType field blank*/
         if (!cutType.equals(""))
-            filteredClothingList = filterCutType(filteredClothingList, cutType);
+            listToFilter = filterCutType(listToFilter, cutType);
 
-        return filteredClothingList;
+        return listToFilter;
     }
 
     public Map<String, Double> getClothingSalesStatistics(int[] monthAndYear) {
@@ -114,26 +113,26 @@ public class ClothingService {
         return clothingSalesStatistics;
     }
 
-    private List<Clothing> filterAvailability(List<Clothing> filteredClothingList, ProductAvailability availability) {
-        return filteredClothingList.stream()
+    private List<Clothing> filterAvailability(List<Clothing> listToFilter, ProductAvailability availability) {
+        return listToFilter.stream()
                 .filter(clothing -> clothing.getAvailability() == availability)
                 .collect(Collectors.toList());
     }
 
-    private List<Clothing> filterClothingType(List<Clothing> filteredClothingList, ClothingType clothingType) {
-        return filteredClothingList.stream().filter(clothing -> clothing.getClothingType() == clothingType).collect(Collectors.toList());
+    private List<Clothing> filterClothingType(List<Clothing> listToFilter, ClothingType clothingType) {
+        return listToFilter.stream().filter(clothing -> clothing.getClothingType() == clothingType).collect(Collectors.toList());
     }
 
-    private List<Clothing> filterSize(List<Clothing> filteredClothingList, ClothingSize size) {
-        return filteredClothingList.stream().filter(clothing -> clothing.getSize() == size).collect(Collectors.toList());
+    private List<Clothing> filterSize(List<Clothing> listToFilter, ClothingSize size) {
+        return listToFilter.stream().filter(clothing -> clothing.getSize() == size).collect(Collectors.toList());
     }
 
-    private List<Clothing> filterTheme(List<Clothing> filteredClothingList, ClothingTheme theme) {
-        return filteredClothingList.stream().filter(clothing -> clothing.getTheme() == theme).collect(Collectors.toList());
+    private List<Clothing> filterTheme(List<Clothing> listToFilter, ClothingTheme theme) {
+        return listToFilter.stream().filter(clothing -> clothing.getTheme() == theme).collect(Collectors.toList());
     }
 
-    private List<Clothing> filterCutType(List<Clothing> filteredClothingList, String cutType) {
-        return filteredClothingList.stream().filter(clothing -> clothing.getCutType().equals(cutType)).collect(Collectors.toList());
+    private List<Clothing> filterCutType(List<Clothing> listToFilter, String cutType) {
+        return listToFilter.stream().filter(clothing -> clothing.getCutType().equals(cutType)).collect(Collectors.toList());
     }
 }
 

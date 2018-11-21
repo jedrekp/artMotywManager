@@ -35,11 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class JeweleryControllerTest {
 
-    private static final String UNIQUE_ID = "uniqueId";
-    private static final String NON_UNIQUE_ID = "nonUniqueId";
-    private static final String TEST_DESCRIPTION = "testDescription";
-    private static final String TOO_LONG_DESCRIPTION = StringUtils.repeat("a", 251);
-
     @InjectMocks
     private JeweleryController jeweleryController;
     @Mock
@@ -47,6 +42,11 @@ class JeweleryControllerTest {
     @Mock
     private ProductService productServiceMock;
     private MockMvc mockMvc;
+
+    private static final String UNIQUE_ID = "uniqueId";
+    private static final String NON_UNIQUE_ID = "nonUniqueId";
+    private static final String TEST_DESCRIPTION = "testDescription";
+    private static final String TOO_LONG_DESCRIPTION = StringUtils.repeat("a", 251);
 
     @BeforeEach
     void setUp() {
@@ -212,30 +212,35 @@ class JeweleryControllerTest {
     }
 
     @Test
-    void testShowJewelerySearchResultWhenMatchingProductsFound() throws Exception {
+    void testShowJewelerySearchResult_WhenMatchingProductsFound() throws Exception {
         List<Jewelery> testList = Arrays.asList(new Jewelery(), new Jewelery());
-        when(jeweleryServiceMock.filterJewelery("", "", "all", "all", "all"))
+
+        when(jeweleryServiceMock.getAllJeweleryInPriceRange("", "")).thenReturn(testList);
+        when(jeweleryServiceMock.filterJewelery(testList, "any", "any", "any"))
                 .thenReturn(testList);
 
         mockMvc.perform(get("/jewelery/jewelerySearchResults")
                 .param("priceMin", "")
                 .param("priceMax", "")
-                .param("availability", "all")
-                .param("jeweleryType", "all")
-                .param("substance", "all"))
+                .param("availability", "any")
+                .param("jeweleryType", "any")
+                .param("substance", "any"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/productList/"))
                 .andExpect(flash().attribute("productList", testList))
                 .andExpect(flash().attribute("productList", hasSize(2)));
 
-        verify(jeweleryServiceMock, times(1)).filterJewelery("", "", "all",
-                "all", "all");
+        verify(jeweleryServiceMock, times(1)).filterJewelery(testList, "any",
+                "any", "any");
     }
 
     @Test
-    void testShowJewelerySearchResultsWhenNoMatchingProductsFound() throws Exception {
+    void testShowJewelerySearchResults_WhenNoMatchingProductsFound() throws Exception {
+        List<Jewelery> testList = Arrays.asList(new Jewelery(), new Jewelery());
         List<Jewelery> emptyTestList = new ArrayList<>();
-        when(jeweleryServiceMock.filterJewelery("100", "200", ProductAvailability.SOLD.toString(),
+
+        when(jeweleryServiceMock.getAllJeweleryInPriceRange("100", "200")).thenReturn(testList);
+        when(jeweleryServiceMock.filterJewelery(testList, ProductAvailability.SOLD.toString(),
                 JeweleryType.EARINGS_TYPE.toString(), JewelerySubstance.PRECIOUS_METAL_SUBSTANCE.toString()))
                 .thenReturn(emptyTestList);
 
@@ -248,6 +253,31 @@ class JeweleryControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/showMessage/"))
                 .andExpect(flash().attribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage()));
+
+        verify(jeweleryServiceMock, times(1)).getAllJeweleryInPriceRange("100", "200");
+        verify(jeweleryServiceMock, times(1)).filterJewelery(testList, ProductAvailability.SOLD.toString(),
+                JeweleryType.EARINGS_TYPE.toString(), JewelerySubstance.PRECIOUS_METAL_SUBSTANCE.toString());
     }
+
+    @Test
+    void testShowJewelerySearchResults_WhenNoJeweleryInPriceRangeFound()throws Exception{
+        List<Jewelery> emptyTestList = new ArrayList<>();
+
+        when(jeweleryServiceMock.getAllJeweleryInPriceRange("100", "110")).thenReturn(emptyTestList);
+
+        mockMvc.perform(get("/jewelery/jewelerySearchResults")
+                .param("priceMin", "100")
+                .param("priceMax", "110")
+                .param("availability", "any")
+                .param("jeweleryType", "any")
+                .param("substance", "any"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/product/showMessage/"))
+                .andExpect(flash().attribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage()));
+        
+        verify(jeweleryServiceMock,times(1)).getAllJeweleryInPriceRange("100","110");
+        verifyNoMoreInteractions(jeweleryServiceMock);
+    }
+
 
 }

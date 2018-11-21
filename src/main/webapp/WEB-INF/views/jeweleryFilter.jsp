@@ -27,19 +27,19 @@
             <input type="text" style="width: 25%" name="priceMax" placeholder="max" pattern="[+]?[0-9]*[.,]?[0-9]+"
                    oninvalid="this.setCustomValidity('nieprawidłowy format ceny')" oninput="this.setCustomValidity('')"><br/>
             Rodzaj : <select name="jeweleryType">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${jeweleryTypes}" var="type">
                 <option value="${type}">${type.typeName}</option>
             </c:forEach>
         </select><br/>
             Dostępność : <select name="availability">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${productAvailability}" var="availiability">
                 <option value="${availiability}">${availiability.availabilityStatus}</option>
             </c:forEach>
         </select><br/>
             Tworzywo : <select name="substance">
-            <option value="all">wszystkie</option>
+            <option value="any">wszystkie</option>
             <c:forEach items="${jewelerySubstances}" var="substance">
                 <option value="${substance}">${substance.substanceName}</option>
             </c:forEach>
