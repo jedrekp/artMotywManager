@@ -26,17 +26,17 @@ public class ClothingDao {
         return getSession().get(Clothing.class, id);
     }
 
-    public List<Clothing> getAllClothingInPriceRange(double priceMin, double priceMax) {
+    public List<Clothing> getAllClothesInPriceRange(double priceMin, double priceMax) {
         return getSession().createQuery("from Clothing where price between :priceMin and :priceMax")
                 .setParameter("priceMin", priceMin).setParameter("priceMax", priceMax).getResultList();
     }
 
-    public List<Clothing> getAllSoldClothing() {
+    public List<Clothing> getAllSoldClothes() {
         return getSession().createQuery("from Clothing where availability=:sold")
                 .setParameter("sold", ProductAvailability.SOLD).getResultList();
     }
 
-    public List<Clothing> getAllSoldClothingForMonth(int[] monthAndYear) {
+    public List<Clothing> getAllSoldClothesForMonth(int[] monthAndYear) {
         return getSession().createQuery("from Clothing where month(saleDate)=:month and year(saleDate)=:year")
                 .setParameter("month", monthAndYear[0]).setParameter("year", monthAndYear[1]).getResultList();
     }

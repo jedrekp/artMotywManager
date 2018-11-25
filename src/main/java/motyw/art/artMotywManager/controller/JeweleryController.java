@@ -65,6 +65,7 @@ public class JeweleryController {
                                BindingResult result, Model model) {
 
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             addJewelerySubCategoriesToModel(model);
             return EDIT_JEWELERY_VIEW;
         }

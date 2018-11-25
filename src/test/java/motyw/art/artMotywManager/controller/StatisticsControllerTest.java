@@ -54,7 +54,7 @@ class StatisticsControllerTest {
     void testShowHomePage() throws Exception {
         createStatisticsStubs();
 
-        when(clothingServiceMock.getClothingSalesStatistics(aryEq(new int[0]))).thenReturn(testClothingStatisticsMap);
+        when(clothingServiceMock.getClothesSalesStatistics(aryEq(new int[0]))).thenReturn(testClothingStatisticsMap);
         when(jeweleryServiceMock.getJewelerySalesStatistics(aryEq(new int[0]))).thenReturn(testJeweleryStatisticsMap);
         when(productServiceMock.getSalesStatistics(testClothingStatisticsMap, testJeweleryStatisticsMap)).thenReturn(testStatisticsMap);
 
@@ -70,7 +70,7 @@ class StatisticsControllerTest {
                         hasEntry(TOTAL + INCOME, 3300d))))
                 .andExpect(model().attribute("title", STATISTICS_TITLE));
 
-        verify(clothingServiceMock, times(1)).getClothingSalesStatistics(aryEq(new int[0]));
+        verify(clothingServiceMock, times(1)).getClothesSalesStatistics(aryEq(new int[0]));
         verify(jeweleryServiceMock, times(1)).getJewelerySalesStatistics(aryEq(new int[0]));
         verify(productServiceMock, times(1)).getSalesStatistics(testClothingStatisticsMap, testJeweleryStatisticsMap);
     }
@@ -90,7 +90,7 @@ class StatisticsControllerTest {
         createStatisticsStubs();
         int[] monthAndYear = {Integer.parseInt(MONTH), Integer.parseInt(YEAR)};
 
-        when(clothingServiceMock.getClothingSalesStatistics(aryEq(monthAndYear))).thenReturn(testClothingStatisticsMap);
+        when(clothingServiceMock.getClothesSalesStatistics(aryEq(monthAndYear))).thenReturn(testClothingStatisticsMap);
         when(jeweleryServiceMock.getJewelerySalesStatistics(aryEq(monthAndYear))).thenReturn(testJeweleryStatisticsMap);
         when(productServiceMock.getSalesStatistics(testClothingStatisticsMap, testJeweleryStatisticsMap)).thenReturn(testStatisticsMap);
         when(productServiceMock.getMonthlyStatisticsTitle(eq(MONTHLY_STATISTICS_TITLE), aryEq(monthAndYear)))
@@ -108,7 +108,7 @@ class StatisticsControllerTest {
                         hasEntry(TOTAL + INCOME, 3300d))))
                 .andExpect(model().attribute("title", MONTHLY_STATISTICS_TITLE + monthAndYear[0] + "/" + monthAndYear[1]));
 
-        verify(clothingServiceMock, times(1)).getClothingSalesStatistics(aryEq(monthAndYear));
+        verify(clothingServiceMock, times(1)).getClothesSalesStatistics(aryEq(monthAndYear));
         verify(jeweleryServiceMock, times(1)).getJewelerySalesStatistics(aryEq(monthAndYear));
         verify(productServiceMock, times(1)).getSalesStatistics(testClothingStatisticsMap, testJeweleryStatisticsMap);
         verify(productServiceMock, times(1)).getMonthlyStatisticsTitle(eq(MONTHLY_STATISTICS_TITLE), aryEq(monthAndYear));

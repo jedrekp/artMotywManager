@@ -32,7 +32,7 @@ public class ClothingService {
         if (priceMin.equals("")) priceMin = MINIMUM_VALID_PRICE;
         if (priceMax.equals("")) priceMax = MAXIMUM_VALID_PRICE;
 
-        return clothingDao.getAllClothingInPriceRange(Double.parseDouble(priceMin), Double.parseDouble(priceMax));
+        return clothingDao.getAllClothesInPriceRange(Double.parseDouble(priceMin), Double.parseDouble(priceMax));
     }
 
     public List<Clothing> filterClothes(List<Clothing> listToFilter, String availability, String clothingType,
@@ -52,13 +52,13 @@ public class ClothingService {
         return listToFilter;
     }
 
-    public Map<String, Double> getClothingSalesStatistics(int[] monthAndYear) {
+    public Map<String, Double> getClothesSalesStatistics(int[] monthAndYear) {
         Map<String, Double> clothingSalesStatistics = new HashMap<>();
         List<Clothing> soldClothing;
         if (monthAndYear.length == 0) {
-            soldClothing = getAllSoldClothing();
+            soldClothing = clothingDao.getAllSoldClothes();
         } else {
-            soldClothing = getAllSoldClothingForMonth(monthAndYear);
+            soldClothing = clothingDao.getAllSoldClothesForMonth(monthAndYear);
         }
         clothingSalesStatistics = getGeneralStatistics(clothingSalesStatistics, soldClothing);
         clothingSalesStatistics = getClothingTypeStatistics(clothingSalesStatistics, soldClothing);
@@ -66,18 +66,6 @@ public class ClothingService {
         clothingSalesStatistics = getThemeStatistics(clothingSalesStatistics, soldClothing);
         return clothingSalesStatistics;
 
-    }
-
-    private List<Clothing> getAllSoldClothing() {
-        return clothingDao.getAllSoldClothing();
-    }
-
-    private List<Clothing> getAllSoldClothingForMonth(int[] monthAndYear) {
-        return clothingDao.getAllSoldClothingForMonth(monthAndYear);
-    }
-
-    private double getTotalIncomeOf(List<Clothing> productList) {
-        return productList.stream().mapToDouble(clothing -> clothing.getPrice()).sum();
     }
 
     private Map<String, Double> getGeneralStatistics(Map<String, Double> clothingSalesStatistics, List<Clothing> soldClothing) {
@@ -111,6 +99,10 @@ public class ClothingService {
             clothingSalesStatistics.put(theme + INCOME, getTotalIncomeOf(filteredByThemeList));
         }
         return clothingSalesStatistics;
+    }
+
+    private double getTotalIncomeOf(List<Clothing> productList) {
+        return productList.stream().mapToDouble(Clothing::getPrice).sum();
     }
 
     private List<Clothing> filterAvailability(List<Clothing> listToFilter, ProductAvailability availability) {

@@ -13,12 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import static motyw.art.artMotywManager.util.StaticValues.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 class ClothingServiceTest {
 
@@ -47,7 +52,7 @@ class ClothingServiceTest {
         testClothing2 = new Clothing("test2", ProductAvailability.SOLD, TEST_DESCRIPTION, 400,
                 ClothingType.DRESS_TYPE, ClothingSize.M_SIZE, ClothingTheme.FLORAL_THEME, TEST_CUT_TYPE_1);
 
-        testClothing3 = new Clothing("test3", ProductAvailability.SOLD, TEST_DESCRIPTION, 150,
+        testClothing3 = new Clothing("test3", ProductAvailability.SOLD, TEST_DESCRIPTION, 500,
                 ClothingType.JACKET_TYPE, ClothingSize.S_SIZE, ClothingTheme.ANIMAL_THEME, TEST_CUT_TYPE_1);
 
         testClothing4 = new Clothing("test4", ProductAvailability.SOLD, TEST_DESCRIPTION, 200,
@@ -56,7 +61,7 @@ class ClothingServiceTest {
         testClothing5 = new Clothing("test5", ProductAvailability.SOLD, TEST_DESCRIPTION, 300,
                 ClothingType.PANTS_TYPE, ClothingSize.L_SIZE, ClothingTheme.NO_THEME, TEST_CUT_TYPE_2);
 
-        testClothing6 = new Clothing("test6", ProductAvailability.SOLD, TEST_DESCRIPTION, 500,
+        testClothing6 = new Clothing("test6", ProductAvailability.SOLD, TEST_DESCRIPTION, 150,
                 ClothingType.HAT_TYPE, ClothingSize.UNIVERSAL_SIZE, ClothingTheme.NO_THEME, TEST_CUT_TYPE_2);
 
         clothingListStub = Arrays.asList(testClothing1, testClothing2, testClothing3, testClothing4,
@@ -69,8 +74,25 @@ class ClothingServiceTest {
     }
 
     @Test
+    void testGetAllClothesInPriceRange_whenPriceRangeNotDefined() {
+        when(clothingDaoMock.getAllClothesInPriceRange(0, 10000)).thenReturn(clothingListStub);
+        List<Clothing> testList = clothingService.getAllClothesInPriceRange("", "");
+        assertEquals(clothingListStub, testList);
+        verify(clothingDaoMock, times(1)).getAllClothesInPriceRange(Double.parseDouble(MINIMUM_VALID_PRICE),
+                Double.parseDouble(MAXIMUM_VALID_PRICE));
+    }
+
+    @Test
+    void testGetAllClothesInPriceRange_whenPriceRangeIsDefined() {
+        when(clothingDaoMock.getAllClothesInPriceRange(100, 500)).thenReturn(clothingListStub);
+        List<Clothing> testList = clothingService.getAllClothesInPriceRange("100", "500");
+        assertEquals(clothingListStub, testList);
+        verify(clothingDaoMock, times(1)).getAllClothesInPriceRange(100, 500);
+    }
+
+    @Test
     void testFilterClothes_whenNoCategoriesHaveDefinedValues_andExpectMatchingClothesFound() {
-        List<Clothing> expectedResult = new ArrayList<>(clothingListStub);
+        List<Clothing> expectedResult = clothingListStub;
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", "any", "any", "");
 
@@ -80,7 +102,7 @@ class ClothingServiceTest {
 
     @Test
     void testFilterClothes_whenAvailabilityIsDefined_andExpectMatchingClothesFound() {
-        List<Clothing> expectedResult = Arrays.asList(testClothing1, testClothing2, testClothing3, testClothing4, testClothing5, testClothing6);
+        List<Clothing> expectedResult = clothingListStub;
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 ProductAvailability.SOLD.toString(), "any", "any", "any", "");
 
@@ -145,7 +167,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenClothingThemeIsDefined_andExpectNoMatchingClothesFound() {
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
-                "any", "any", "any", ClothingTheme.OTHER_THEME.toString(), "");
+                "any", "any", "any", ClothingTheme.DIFFERENT_THEME.toString(), "");
 
         assertTrue(testList.isEmpty());
     }
@@ -171,8 +193,7 @@ class ClothingServiceTest {
 
     @Test
     void testFilterClothes_whenAllCategoriesAreDefined_andExpectMatchingClothesFound() {
-        List<Clothing> expectedResult = new ArrayList<>();
-        expectedResult.add(testClothing3);
+        List<Clothing> expectedResult = Arrays.asList(testClothing3);
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 ProductAvailability.SOLD.toString(), ClothingType.JACKET_TYPE.toString(),
                 ClothingSize.S_SIZE.toString(), ClothingTheme.ANIMAL_THEME.toString(), TEST_CUT_TYPE_1);
@@ -190,5 +211,72 @@ class ClothingServiceTest {
         assertTrue(testList.isEmpty());
     }
 
+    @Test
+    void testGetClothesSalesStatistics() {
+        when(clothingDaoMock.getAllSoldClothes()).thenReturn(clothingListStub);
+        Map<String, Double> testClothingStatistics = clothingService.getClothesSalesStatistics(new int[0]);
+
+        assertEquals(44, testClothingStatistics.size());
+        assertThat(testClothingStatistics, allOf(
+                hasEntry(CLOTHING + SALES, 6d),
+                hasEntry(CLOTHING + INCOME, 1800d),
+                hasEntry(ClothingType.DRESS_TYPE + SALES, 2d),
+                hasEntry(ClothingType.DRESS_TYPE + INCOME, 650d),
+                hasEntry(ClothingType.SKIRT_TYPE + SALES, 1d),
+                hasEntry(ClothingType.SKIRT_TYPE + INCOME, 200d),
+                hasEntry(ClothingType.PANTS_TYPE + SALES, 1d),
+                hasEntry(ClothingType.PANTS_TYPE + INCOME, 300d),
+                hasEntry(ClothingType.SHIRT_TYPE + SALES, 0d),
+                hasEntry(ClothingType.SHIRT_TYPE + INCOME, 0d),
+                hasEntry(ClothingType.SWEATSHIRT_TYPE + SALES, 0d),
+                hasEntry(ClothingType.SWEATSHIRT_TYPE + INCOME, 0d),
+                hasEntry(ClothingType.HAT_TYPE + SALES, 1d),
+                hasEntry(ClothingType.HAT_TYPE + INCOME, 150d),
+                hasEntry(ClothingType.JACKET_TYPE + SALES, 1d),
+                hasEntry(ClothingType.JACKET_TYPE + INCOME, 500d),
+                hasEntry(ClothingType.SUIT_TYPE + SALES, 0d),
+                hasEntry(ClothingType.SUIT_TYPE + INCOME, 0d),
+                hasEntry(ClothingType.DIFFERENT_CLOTHING_TYPE + SALES, 0d),
+                hasEntry(ClothingType.DIFFERENT_CLOTHING_TYPE + INCOME, 0d),
+                hasEntry(ClothingSize.XS_SIZE + SALES, 0d),
+                hasEntry(ClothingSize.XS_SIZE + INCOME, 0d),
+                hasEntry(ClothingSize.S_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.S_SIZE + INCOME, 500d),
+                hasEntry(ClothingSize.M_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.M_SIZE + INCOME, 400d),
+                hasEntry(ClothingSize.L_SIZE + SALES, 2d),
+                hasEntry(ClothingSize.L_SIZE + INCOME, 500d),
+                hasEntry(ClothingSize.XL_SIZE + SALES, 0d),
+                hasEntry(ClothingSize.XL_SIZE + INCOME, 0d),
+                hasEntry(ClothingSize.XXL_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.XXL_SIZE + INCOME, 250d),
+                hasEntry(ClothingSize.UNIVERSAL_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.UNIVERSAL_SIZE + INCOME, 150d),
+                hasEntry(ClothingTheme.ANIMAL_THEME + SALES, 1d),
+                hasEntry(ClothingTheme.ANIMAL_THEME + INCOME, 500d),
+                hasEntry(ClothingTheme.FLORAL_THEME + SALES, 1d),
+                hasEntry(ClothingTheme.FLORAL_THEME + INCOME, 400d),
+                hasEntry(ClothingTheme.ABSTRACT_THEME + SALES, 1d),
+                hasEntry(ClothingTheme.ABSTRACT_THEME + INCOME, 250d),
+                hasEntry(ClothingTheme.DIFFERENT_THEME + SALES, 0d),
+                hasEntry(ClothingTheme.DIFFERENT_THEME + INCOME, 0d),
+                hasEntry(ClothingTheme.NO_THEME + SALES, 3d),
+                hasEntry(ClothingTheme.NO_THEME + INCOME, 650d)));
+
+        verify(clothingDaoMock, times(1)).getAllSoldClothes();
+        verifyNoMoreInteractions(clothingDaoMock);
+    }
+
+    @Test
+    void testGetClothesSalesStatisticsForSpecificMonth() {
+        int[] monthAndYear = new int[]{10, 2018};
+        when(clothingDaoMock.getAllSoldClothes()).thenReturn(clothingListStub);
+        Map<String, Double> testClothingStatistics = clothingService.getClothesSalesStatistics(monthAndYear);
+
+        assertEquals(44, testClothingStatistics.size());
+
+        verify(clothingDaoMock, times(1)).getAllSoldClothesForMonth(monthAndYear);
+        verifyNoMoreInteractions(clothingDaoMock);
+    }
 }
 

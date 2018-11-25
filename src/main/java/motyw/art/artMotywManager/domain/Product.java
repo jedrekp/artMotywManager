@@ -5,10 +5,11 @@ import motyw.art.artMotywManager.validators.AddValidation;
 import motyw.art.artMotywManager.validators.EditValidation;
 import motyw.art.artMotywManager.validators.ImageFile;
 import motyw.art.artMotywManager.validators.UniqueId;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -35,8 +36,10 @@ public abstract class Product {
     private CommonsMultipartFile imageFile;
     @Column(name = "image_data", columnDefinition = "mediumblob")
     private byte[] imageData;
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy kk:mm:ss.SSS")
     @Column(name = "sale_date")
-    private LocalDate saleDate = null;
+    private Date saleDate = null;
 
 
     public String getId() {
@@ -87,11 +90,11 @@ public abstract class Product {
         this.imageData = imageData;
     }
 
-    public LocalDate getSaleDate() {
+    public Date getSaleDate() {
         return saleDate;
     }
 
-    public void setSaleDate(LocalDate saleDate) {
+    public void setSaleDate(Date saleDate) {
         this.saleDate = saleDate;
     }
 }

@@ -4,7 +4,7 @@ public enum ClothingTheme {
     ANIMAL_THEME("zwierzęcy"),
     FLORAL_THEME("roślinny"),
     ABSTRACT_THEME("abstrakcja"),
-    OTHER_THEME("inny"),
+    DIFFERENT_THEME("inny"),
     NO_THEME("brak");
 
     private String themeName;

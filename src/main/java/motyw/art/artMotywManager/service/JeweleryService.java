@@ -49,27 +49,15 @@ public class JeweleryService {
         Map<String, Double> jewelerySalesStatistics = new HashMap<>();
         List<Jewelery> soldJewelery;
         if (monthAndYear.length == 0) {
-            soldJewelery = getAllSoldJewelery();
+            soldJewelery = jeweleryDao.getAllSoldJewelery();
         } else {
-            soldJewelery = getAllSoldJeweleryForMonth(monthAndYear);
+            soldJewelery = jeweleryDao.getAllSoldJeweleryForMonth(monthAndYear);
         }
         jewelerySalesStatistics = getGeneralStatistics(jewelerySalesStatistics, soldJewelery);
         jewelerySalesStatistics = getJeweleryTypeStatistics(jewelerySalesStatistics, soldJewelery);
         jewelerySalesStatistics = getSubstanceStatistics(jewelerySalesStatistics, soldJewelery);
         return jewelerySalesStatistics;
 
-    }
-
-    private List<Jewelery> getAllSoldJewelery() {
-        return jeweleryDao.getAllSoldJewelery();
-    }
-
-    private List<Jewelery> getAllSoldJeweleryForMonth(int[] monthAndYear) {
-        return jeweleryDao.getAllSoldJeweleryForMonth(monthAndYear);
-    }
-
-    private double getTotalIncomeOf(List<Jewelery> jeweleryList) {
-        return jeweleryList.stream().mapToDouble(jewelery -> jewelery.getPrice()).sum();
     }
 
     private Map<String, Double> getGeneralStatistics(Map<String, Double> jewelerySalesStatistics, List<Jewelery> soldJewelery) {
@@ -96,6 +84,11 @@ public class JeweleryService {
         }
         return jewelerySalesStatistics;
     }
+
+    private double getTotalIncomeOf(List<Jewelery> jeweleryList) {
+        return jeweleryList.stream().mapToDouble(Jewelery::getPrice).sum();
+    }
+
 
     private List<Jewelery> filterAvailability(List<Jewelery> listToFilter, ProductAvailability availability) {
         return listToFilter.stream().filter(jewelery -> jewelery.getAvailability() == availability).collect(Collectors.toList());

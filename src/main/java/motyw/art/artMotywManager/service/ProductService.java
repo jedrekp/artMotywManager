@@ -28,8 +28,6 @@ public class ProductService {
     }
 
     public void saveOrUpdateProduct(Product product) {
-        //adding 1 day to LocalDate because converting LocalDate to SQL Date while saving object in db sets date one day back for some reason
-        if (product.getSaleDate() != null) product.setSaleDate(product.getSaleDate().plusDays(1));
         productDao.saveOrUpdateProduct(product);
     }
 
@@ -45,7 +43,7 @@ public class ProductService {
 
     public void markAsSold(Product product) {
         product.setAvailability(ProductAvailability.SOLD);
-        product.setSaleDate(LocalDate.now());
+        product.setSaleDate(new Date());
         saveOrUpdateProduct(product);
     }
 
