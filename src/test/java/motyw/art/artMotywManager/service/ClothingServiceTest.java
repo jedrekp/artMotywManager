@@ -270,10 +270,55 @@ class ClothingServiceTest {
     @Test
     void testGetClothesSalesStatisticsForSpecificMonth() {
         int[] monthAndYear = new int[]{10, 2018};
-        when(clothingDaoMock.getAllSoldClothes()).thenReturn(clothingListStub);
+        when(clothingDaoMock.getAllSoldClothesForMonth(monthAndYear)).thenReturn(clothingListStub);
         Map<String, Double> testClothingStatistics = clothingService.getClothesSalesStatistics(monthAndYear);
 
         assertEquals(44, testClothingStatistics.size());
+        assertThat(testClothingStatistics, allOf(
+                hasEntry(CLOTHING + SALES, 6d),
+                hasEntry(CLOTHING + INCOME, 1800d),
+                hasEntry(ClothingType.DRESS_TYPE + SALES, 2d),
+                hasEntry(ClothingType.DRESS_TYPE + INCOME, 650d),
+                hasEntry(ClothingType.SKIRT_TYPE + SALES, 1d),
+                hasEntry(ClothingType.SKIRT_TYPE + INCOME, 200d),
+                hasEntry(ClothingType.PANTS_TYPE + SALES, 1d),
+                hasEntry(ClothingType.PANTS_TYPE + INCOME, 300d),
+                hasEntry(ClothingType.SHIRT_TYPE + SALES, 0d),
+                hasEntry(ClothingType.SHIRT_TYPE + INCOME, 0d),
+                hasEntry(ClothingType.SWEATSHIRT_TYPE + SALES, 0d),
+                hasEntry(ClothingType.SWEATSHIRT_TYPE + INCOME, 0d),
+                hasEntry(ClothingType.HAT_TYPE + SALES, 1d),
+                hasEntry(ClothingType.HAT_TYPE + INCOME, 150d),
+                hasEntry(ClothingType.JACKET_TYPE + SALES, 1d),
+                hasEntry(ClothingType.JACKET_TYPE + INCOME, 500d),
+                hasEntry(ClothingType.SUIT_TYPE + SALES, 0d),
+                hasEntry(ClothingType.SUIT_TYPE + INCOME, 0d),
+                hasEntry(ClothingType.DIFFERENT_CLOTHING_TYPE + SALES, 0d),
+                hasEntry(ClothingType.DIFFERENT_CLOTHING_TYPE + INCOME, 0d),
+                hasEntry(ClothingSize.XS_SIZE + SALES, 0d),
+                hasEntry(ClothingSize.XS_SIZE + INCOME, 0d),
+                hasEntry(ClothingSize.S_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.S_SIZE + INCOME, 500d),
+                hasEntry(ClothingSize.M_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.M_SIZE + INCOME, 400d),
+                hasEntry(ClothingSize.L_SIZE + SALES, 2d),
+                hasEntry(ClothingSize.L_SIZE + INCOME, 500d),
+                hasEntry(ClothingSize.XL_SIZE + SALES, 0d),
+                hasEntry(ClothingSize.XL_SIZE + INCOME, 0d),
+                hasEntry(ClothingSize.XXL_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.XXL_SIZE + INCOME, 250d),
+                hasEntry(ClothingSize.UNIVERSAL_SIZE + SALES, 1d),
+                hasEntry(ClothingSize.UNIVERSAL_SIZE + INCOME, 150d),
+                hasEntry(ClothingTheme.ANIMAL_THEME + SALES, 1d),
+                hasEntry(ClothingTheme.ANIMAL_THEME + INCOME, 500d),
+                hasEntry(ClothingTheme.FLORAL_THEME + SALES, 1d),
+                hasEntry(ClothingTheme.FLORAL_THEME + INCOME, 400d),
+                hasEntry(ClothingTheme.ABSTRACT_THEME + SALES, 1d),
+                hasEntry(ClothingTheme.ABSTRACT_THEME + INCOME, 250d),
+                hasEntry(ClothingTheme.DIFFERENT_THEME + SALES, 0d),
+                hasEntry(ClothingTheme.DIFFERENT_THEME + INCOME, 0d),
+                hasEntry(ClothingTheme.NO_THEME + SALES, 3d),
+                hasEntry(ClothingTheme.NO_THEME + INCOME, 650d)));
 
         verify(clothingDaoMock, times(1)).getAllSoldClothesForMonth(monthAndYear);
         verifyNoMoreInteractions(clothingDaoMock);
