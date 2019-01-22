@@ -17,8 +17,6 @@ public class UniqueIdValidator implements ConstraintValidator<UniqueId, String> 
 
     @Override
     public boolean isValid(String id, ConstraintValidatorContext constraintValidatorContext) {
-        boolean validId = false;
-        if (!productService.findById(id).isPresent()) validId = true;
-        return validId;
+        return productService.findById(id) == null;
     }
 }

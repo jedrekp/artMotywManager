@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
-import java.util.Optional;
 
 import static motyw.art.artMotywManager.util.ViewsAndRedirects.*;
 
@@ -23,9 +22,9 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public String showProduct(@PathVariable("id") String id, Model model, RedirectAttributes redirectAttributes) {
-        Optional<Product> product = productService.findById(id);
-        if (product.isPresent()) {
-            model.addAttribute("product", product.get());
+        Product product = productService.findById(id);
+        if (product != null) {
+            model.addAttribute("product", product);
             return SINGLE_PRODUCT_VIEW;
         } else {
             redirectAttributes.addFlashAttribute("message", UserMessages.PRODUCT_NOT_FOUND_MSG.getUserMessage());
@@ -55,15 +54,15 @@ public class ProductController {
 
     @PostMapping("/markAsSold/{id}")
     public String markAsSold(@PathVariable("id") String id) {
-        Optional<Product> product = productService.findById(id);
-        product.ifPresent(p -> productService.markAsSold(p));
+        Product product = productService.findById(id);
+        if (product != null) productService.markAsSold(product);
         return REDIRECT_TO_PRODUCT + id;
     }
 
     @PostMapping("/deleteProduct/{id}")
     public String deleteProduct(@PathVariable("id") String id, RedirectAttributes redirectAttributes) {
-        Optional<Product> product = productService.findById(id);
-        product.ifPresent(p -> productService.deleteProduct(p));
+        Product product = productService.findById(id);
+        if (product != null) productService.deleteProduct(product);
         redirectAttributes.addFlashAttribute("message", UserMessages.PRODUCT_DELETED_MSG.getUserMessage() + id);
         return REDIRECT_TO_MESSAGE;
     }

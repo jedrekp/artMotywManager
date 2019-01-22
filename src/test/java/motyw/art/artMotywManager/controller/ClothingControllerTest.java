@@ -135,7 +135,6 @@ class ClothingControllerTest {
     void testShowEditClothingForm() throws Exception {
         Clothing testClothing = new Clothing(UNIQUE_ID, ProductAvailability.AVAILABLE, TEST_DESCRIPTION, 150, ClothingType.DRESS_TYPE,
                 ClothingSize.L_SIZE, ClothingTheme.ABSTRACT_THEME, TEST_CUT_TYPE);
-
         when(clothingServiceMock.findById(UNIQUE_ID)).thenReturn(testClothing);
 
         mockMvc.perform(get("/clothing/editClothing/{id}", UNIQUE_ID))
@@ -237,7 +236,6 @@ class ClothingControllerTest {
     @Test
     void testShowClothingSearchResult_WhenMatchingProductsFound() throws Exception {
         List<Clothing> testList = Arrays.asList(new Clothing(), new Clothing());
-
         when(clothingServiceMock.getAllClothesInPriceRange("", "")).thenReturn(testList);
         when(clothingServiceMock.filterClothes(testList, "all", "all", "all", "all", ""))
                 .thenReturn(testList);
@@ -264,7 +262,6 @@ class ClothingControllerTest {
     void testShowClothingSearchResults_WhenNoMatchingProductsFound() throws Exception {
         List<Clothing> testList = Arrays.asList(new Clothing(), new Clothing());
         List<Clothing> emptyTestList = new ArrayList<>();
-
         when(clothingServiceMock.getAllClothesInPriceRange("200", "300")).thenReturn(testList);
         when(clothingServiceMock.filterClothes(testList, ProductAvailability.SOLD.toString(),
                 ClothingType.DRESS_TYPE.toString(), ClothingSize.XXL_SIZE.toString(), ClothingTheme.FLORAL_THEME.toString(), TEST_CUT_TYPE))
@@ -290,7 +287,6 @@ class ClothingControllerTest {
     @Test
     void testShowClothingSearchResults_WhenNoProductsInPriceRangeFound() throws Exception {
         List<Clothing> emptyTestList = new ArrayList<>();
-
         when(clothingServiceMock.getAllClothesInPriceRange("100", "125")).thenReturn(emptyTestList);
 
         mockMvc.perform(get("/clothing/clothingSearchResults")

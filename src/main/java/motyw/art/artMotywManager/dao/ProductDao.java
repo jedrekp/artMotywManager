@@ -8,11 +8,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @Transactional
-@SuppressWarnings("unchecked")
+
 public class ProductDao {
     private final SessionFactory sessionFactory;
 
@@ -21,12 +20,12 @@ public class ProductDao {
         this.sessionFactory = sessionFactory;
     }
 
-    public Optional<Product> findById(String id) {
-        return Optional.ofNullable(getSession().get(Product.class, id));
+    public Product findById(String id) {
+        return getSession().get(Product.class, id);
     }
 
     public List<Product> getListOfAllProducts() {
-        return getSession().createQuery("from Product").getResultList();
+        return getSession().createQuery("from Product", Product.class).getResultList();
     }
 
     public void saveOrUpdateProduct(Product product) {

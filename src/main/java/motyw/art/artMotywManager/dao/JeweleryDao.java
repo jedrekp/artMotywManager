@@ -13,7 +13,6 @@ import java.util.List;
 
 @Repository
 @Transactional
-@SuppressWarnings("unchecked")
 public class JeweleryDao {
     private final SessionFactory sessionFactory;
 
@@ -27,17 +26,17 @@ public class JeweleryDao {
     }
 
     public List<Jewelery> getAllJeweleryInPriceRange(double priceMin, double priceMax) {
-        return getSession().createQuery("from Jewelery where price between :priceMin and :priceMax")
+        return getSession().createQuery("from Jewelery where price between :priceMin and :priceMax",Jewelery.class)
                 .setParameter("priceMin", priceMin).setParameter("priceMax", priceMax).getResultList();
     }
 
     public List<Jewelery> getAllSoldJewelery() {
-        return getSession().createQuery("from Jewelery where availability=:sold")
+        return getSession().createQuery("from Jewelery where availability=:sold",Jewelery.class)
                 .setParameter("sold", ProductAvailability.SOLD).getResultList();
     }
 
     public List<Jewelery> getAllSoldJeweleryForMonth(int[] monthAndYear) {
-        return getSession().createQuery("from Jewelery where month(saleDate)=:month and year(saleDate)=:year")
+        return getSession().createQuery("from Jewelery where month(saleDate)=:month and year(saleDate)=:year",Jewelery.class)
                 .setParameter("month", monthAndYear[0]).setParameter("year", monthAndYear[1]).getResultList();
     }
 

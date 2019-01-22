@@ -19,7 +19,7 @@ public class ProductService {
     @Autowired
     private ProductDao productDao;
 
-    public Optional<Product> findById(String id) {
+    public Product findById(String id) {
         return productDao.findById(id);
     }
 

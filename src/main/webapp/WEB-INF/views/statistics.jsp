@@ -170,8 +170,8 @@
             </tr>
             <tr>
                 <td>inny</td>
-                <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${statistics.OTHER_THEME_SALES}"/> szt</td>
-                <td><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${statistics.OTHER_THEME_INCOME}"/> zł</td>
+                <td><fmt:formatNumber type="number" maxFractionDigits="0" value="${statistics.DIFFERENT_THEME_SALES}"/> szt</td>
+                <td><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${statistics.DIFFERENT_THEME_INCOME}"/> zł</td>
             </tr>
             <tr>
                 <td>brak</td>

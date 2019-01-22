@@ -10,14 +10,14 @@ import motyw.art.artMotywManager.util.UserMessages;
 import motyw.art.artMotywManager.validators.AddValidation;
 import motyw.art.artMotywManager.validators.EditValidation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -102,5 +102,6 @@ public class JeweleryController {
         model.addAttribute("jeweleryTypes", JeweleryType.values());
         model.addAttribute("jewelerySubstances", JewelerySubstance.values());
     }
+
 }
 

@@ -48,12 +48,12 @@ class StatisticsControllerTest {
         MockitoAnnotations.initMocks(this);
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver("/WEB-INF/views", ".jsp");
         mockMvc = MockMvcBuilders.standaloneSetup(statisticsController).setViewResolvers(viewResolver).build();
+
+        createStatisticsStubs();
     }
 
     @Test
     void testShowHomePage() throws Exception {
-        createStatisticsStubs();
-
         when(clothingServiceMock.getClothesSalesStatistics(aryEq(new int[0]))).thenReturn(testClothingStatisticsMap);
         when(jeweleryServiceMock.getJewelerySalesStatistics(aryEq(new int[0]))).thenReturn(testJeweleryStatisticsMap);
         when(productServiceMock.getSalesStatistics(testClothingStatisticsMap, testJeweleryStatisticsMap)).thenReturn(testStatisticsMap);
@@ -87,9 +87,7 @@ class StatisticsControllerTest {
 
     @Test
     void testShowMonthlyStatistics() throws Exception {
-        createStatisticsStubs();
         int[] monthAndYear = {Integer.parseInt(MONTH), Integer.parseInt(YEAR)};
-
         when(clothingServiceMock.getClothesSalesStatistics(aryEq(monthAndYear))).thenReturn(testClothingStatisticsMap);
         when(jeweleryServiceMock.getJewelerySalesStatistics(aryEq(monthAndYear))).thenReturn(testJeweleryStatisticsMap);
         when(productServiceMock.getSalesStatistics(testClothingStatisticsMap, testJeweleryStatisticsMap)).thenReturn(testStatisticsMap);

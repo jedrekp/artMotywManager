@@ -214,7 +214,6 @@ class JeweleryControllerTest {
     @Test
     void testShowJewelerySearchResult_WhenMatchingProductsFound() throws Exception {
         List<Jewelery> testList = Arrays.asList(new Jewelery(), new Jewelery());
-
         when(jeweleryServiceMock.getAllJeweleryInPriceRange("", "")).thenReturn(testList);
         when(jeweleryServiceMock.filterJewelery(testList, "any", "any", "any"))
                 .thenReturn(testList);
@@ -238,7 +237,6 @@ class JeweleryControllerTest {
     void testShowJewelerySearchResults_WhenNoMatchingProductsFound() throws Exception {
         List<Jewelery> testList = Arrays.asList(new Jewelery(), new Jewelery());
         List<Jewelery> emptyTestList = new ArrayList<>();
-
         when(jeweleryServiceMock.getAllJeweleryInPriceRange("100", "200")).thenReturn(testList);
         when(jeweleryServiceMock.filterJewelery(testList, ProductAvailability.SOLD.toString(),
                 JeweleryType.EARINGS_TYPE.toString(), JewelerySubstance.PRECIOUS_METAL_SUBSTANCE.toString()))
@@ -262,7 +260,6 @@ class JeweleryControllerTest {
     @Test
     void testShowJewelerySearchResults_WhenNoJeweleryInPriceRangeFound()throws Exception{
         List<Jewelery> emptyTestList = new ArrayList<>();
-
         when(jeweleryServiceMock.getAllJeweleryInPriceRange("100", "110")).thenReturn(emptyTestList);
 
         mockMvc.perform(get("/jewelery/jewelerySearchResults")

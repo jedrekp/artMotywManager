@@ -15,7 +15,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static motyw.art.artMotywManager.util.ViewsAndRedirects.*;
 import static org.hamcrest.Matchers.*;
@@ -54,13 +53,13 @@ class ProductControllerTest {
 
     @Test
     void testShowProduct() throws Exception {
-        Optional<Product> testProduct1 = Optional.of(testProductList.get(0));
+        Product testProduct1 = testProductList.get(0);
         when(productServiceMock.findById(VALID_ID)).thenReturn(testProduct1);
 
         mockMvc.perform(get("/product/{id}", VALID_ID))
                 .andExpect(status().isOk())
                 .andExpect(view().name(SINGLE_PRODUCT_VIEW))
-                .andExpect(model().attribute("product", testProduct1.get()))
+                .andExpect(model().attribute("product", testProduct1))
                 .andExpect(model().attribute("product", hasProperty("id", is(VALID_ID))));
 
         verify(productServiceMock, times(1)).findById(VALID_ID);
@@ -68,7 +67,7 @@ class ProductControllerTest {
 
     @Test
     void testShowProductWhenProductNotFound() throws Exception {
-        when(productServiceMock.findById(INVALID_ID)).thenReturn(Optional.empty());
+        when(productServiceMock.findById(INVALID_ID)).thenReturn(null);
 
         mockMvc.perform(get("/product/{id}", INVALID_ID))
                 .andExpect(status().is3xxRedirection())
@@ -121,27 +120,27 @@ class ProductControllerTest {
 
     @Test
     void testMarkAsSold() throws Exception {
-        Optional<Product> testProduct1 = Optional.of(testProductList.get(0));
+        Product testProduct1 = testProductList.get(0);
         when(productServiceMock.findById(VALID_ID)).thenReturn(testProduct1);
 
-        mockMvc.perform(post("/product/markAsSold/{id}",VALID_ID))
+        mockMvc.perform(post("/product/markAsSold/{id}", VALID_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/product/" + VALID_ID));
 
-        verify(productServiceMock, times(1)).markAsSold(testProduct1.get());
+        verify(productServiceMock, times(1)).markAsSold(testProduct1);
     }
 
     @Test
     void testDeleteProduct() throws Exception {
-        Optional<Product> testProduct1 = Optional.of(testProductList.get(0));
+        Product testProduct1 = testProductList.get(0);
         when(productServiceMock.findById(VALID_ID)).thenReturn(testProduct1);
 
-        mockMvc.perform(post("/product/deleteProduct/{id}",VALID_ID))
+        mockMvc.perform(post("/product/deleteProduct/{id}", VALID_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(flash().attribute("message", UserMessages.PRODUCT_DELETED_MSG.getUserMessage() + VALID_ID))
                 .andExpect(redirectedUrl("/product/showMessage/"));
 
-        verify(productServiceMock, times(1)).deleteProduct(testProduct1.get());
+        verify(productServiceMock, times(1)).deleteProduct(testProduct1);
     }
 
     @Test

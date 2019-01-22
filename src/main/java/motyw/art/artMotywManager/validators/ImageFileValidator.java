@@ -16,7 +16,9 @@ public class ImageFileValidator implements ConstraintValidator<ImageFile, Common
 
     @Override
     public boolean isValid(CommonsMultipartFile imageFile, ConstraintValidatorContext constraintValidatorContext) {
-        if (imageFile == null || imageFile.getSize()==0) return true;
+        if (imageFile == null || imageFile.getSize()==0){
+            return true;
+        }
         Pattern pattern = Pattern.compile(IMAGE_PATTERN);
         return pattern.matcher(imageFile.getOriginalFilename()).matches();
     }

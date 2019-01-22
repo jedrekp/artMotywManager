@@ -72,7 +72,9 @@ class JeweleryServiceTest {
     @Test
     void testGetAllJeweleryInPriceRange_whenPriceRangeNotDefined() {
         when(jeweleryDaoMock.getAllJeweleryInPriceRange(0, 10000)).thenReturn(jeweleryListStub);
+
         List<Jewelery> testList = jeweleryService.getAllJeweleryInPriceRange("", "");
+
         assertEquals(jeweleryListStub, testList);
         verify(jeweleryDaoMock, times(1)).getAllJeweleryInPriceRange(Double.parseDouble(MINIMUM_VALID_PRICE),
                 Double.parseDouble(MAXIMUM_VALID_PRICE));
@@ -81,7 +83,9 @@ class JeweleryServiceTest {
     @Test
     void testGetAllJeweleryInPriceRange_whenPriceRangeIsDefined() {
         when(jeweleryDaoMock.getAllJeweleryInPriceRange(100, 500)).thenReturn(jeweleryListStub);
+
         List<Jewelery> testList = jeweleryService.getAllJeweleryInPriceRange("100", "500");
+
         assertEquals(jeweleryListStub, testList);
         verify(jeweleryDaoMock, times(1)).getAllJeweleryInPriceRange(100, 500);
     }
@@ -89,6 +93,7 @@ class JeweleryServiceTest {
     @Test
     void testFilterJewelery_whenNoCategoriesHaveDefinedValues_andExpectMatchingJeweleryFound() {
         List<Jewelery> expectedResult = jeweleryListStub;
+
         List<Jewelery> testList = jeweleryService.filterJewelery(jeweleryListStub,
                 "any", "any", "any");
 
@@ -99,6 +104,7 @@ class JeweleryServiceTest {
     @Test
     void testFilterJewelery_whenAvailabilityIsDefined_andExpectMatchingJeweleryFound() {
         List<Jewelery> expectedResult = jeweleryListStub;
+
         List<Jewelery> testList = jeweleryService.filterJewelery(jeweleryListStub,
                 ProductAvailability.SOLD.toString(), "any", "any");
 
@@ -117,8 +123,10 @@ class JeweleryServiceTest {
     @Test
     void testFilterJewelery_whenJeweleryTypeIsDefined_andExpectMatchingJeweleryFound() {
         List<Jewelery> expectedResult = Arrays.asList(testJewelery1, testJewelery2, testJewelery3);
+
         List<Jewelery> testList = jeweleryService.filterJewelery(jeweleryListStub,
                 "any", JeweleryType.NECKLACE_TYPE.toString(), "any");
+
         assertEquals(3, testList.size());
         assertEquals(expectedResult, testList);
     }
@@ -134,8 +142,10 @@ class JeweleryServiceTest {
     @Test
     void testFilterJewelery_whenJewelerySubstanceIsDefined_andExpectMatchingJeweleryFound() {
         List<Jewelery> expectedResult = Arrays.asList(testJewelery3, testJewelery4, testJewelery5, testJewelery6);
+
         List<Jewelery> testList = jeweleryService.filterJewelery(jeweleryListStub,
                 "any", "any", JewelerySubstance.BEADING_SUBSTANCE.toString());
+
         assertEquals(4, testList.size());
         assertEquals(expectedResult, testList);
     }
@@ -151,8 +161,10 @@ class JeweleryServiceTest {
     @Test
     void testFilterJewelery_whenAllCategoriesAreDefined_andExpectMatchingJeweleryFound() {
         List<Jewelery> expectedResult = Arrays.asList(testJewelery1, testJewelery2);
+
         List<Jewelery> testList = jeweleryService.filterJewelery(jeweleryListStub, ProductAvailability.SOLD.toString(),
                 JeweleryType.NECKLACE_TYPE.toString(), JewelerySubstance.METAL_SUBSTANCE.toString());
+
         assertEquals(2, testList.size());
         assertEquals(expectedResult, testList);
     }
@@ -168,6 +180,7 @@ class JeweleryServiceTest {
     @Test
     void testGetJewelerySalesStatistics() {
         when(jeweleryDaoMock.getAllSoldJewelery()).thenReturn(jeweleryListStub);
+
         Map<String, Double> testJeweleryStatistics = jeweleryService.getJewelerySalesStatistics(new int[0]);
 
         assertEquals(16, testJeweleryStatistics.size());
@@ -197,6 +210,7 @@ class JeweleryServiceTest {
     void testGetJewelerySalesStatisticsForSpecificMonth() {
         int[] monthAndYear = new int[]{10, 2018};
         when(jeweleryDaoMock.getAllSoldJeweleryForMonth(monthAndYear)).thenReturn(jeweleryListStub);
+
         Map<String, Double> testJeweleryStatistics = jeweleryService.getJewelerySalesStatistics(monthAndYear);
 
         assertEquals(16, testJeweleryStatistics.size());

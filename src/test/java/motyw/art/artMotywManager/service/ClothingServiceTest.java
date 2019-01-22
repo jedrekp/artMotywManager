@@ -76,7 +76,9 @@ class ClothingServiceTest {
     @Test
     void testGetAllClothesInPriceRange_whenPriceRangeNotDefined() {
         when(clothingDaoMock.getAllClothesInPriceRange(0, 10000)).thenReturn(clothingListStub);
+
         List<Clothing> testList = clothingService.getAllClothesInPriceRange("", "");
+
         assertEquals(clothingListStub, testList);
         verify(clothingDaoMock, times(1)).getAllClothesInPriceRange(Double.parseDouble(MINIMUM_VALID_PRICE),
                 Double.parseDouble(MAXIMUM_VALID_PRICE));
@@ -85,7 +87,9 @@ class ClothingServiceTest {
     @Test
     void testGetAllClothesInPriceRange_whenPriceRangeIsDefined() {
         when(clothingDaoMock.getAllClothesInPriceRange(100, 500)).thenReturn(clothingListStub);
+
         List<Clothing> testList = clothingService.getAllClothesInPriceRange("100", "500");
+
         assertEquals(clothingListStub, testList);
         verify(clothingDaoMock, times(1)).getAllClothesInPriceRange(100, 500);
     }
@@ -93,6 +97,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenNoCategoriesHaveDefinedValues_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = clothingListStub;
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", "any", "any", "");
 
@@ -103,6 +108,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenAvailabilityIsDefined_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = clothingListStub;
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 ProductAvailability.SOLD.toString(), "any", "any", "any", "");
 
@@ -121,6 +127,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenClothingTypeIsDefined_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = Arrays.asList(testClothing1, testClothing2);
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", ClothingType.DRESS_TYPE.toString(), "any", "any", "");
 
@@ -139,6 +146,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenClothingSizeIsDefined_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = Arrays.asList(testClothing4, testClothing5);
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", ClothingSize.L_SIZE.toString(), "any", "");
 
@@ -157,6 +165,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenClothingThemeIsDefined_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = Arrays.asList(testClothing4, testClothing5, testClothing6);
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", "any", ClothingTheme.NO_THEME.toString(), "");
 
@@ -175,6 +184,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenModelNameIsDefined_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = Arrays.asList(testClothing4, testClothing5, testClothing6);
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 "any", "any", "any", "any", TEST_CUT_TYPE_2);
 
@@ -194,6 +204,7 @@ class ClothingServiceTest {
     @Test
     void testFilterClothes_whenAllCategoriesAreDefined_andExpectMatchingClothesFound() {
         List<Clothing> expectedResult = Arrays.asList(testClothing3);
+
         List<Clothing> testList = clothingService.filterClothes(clothingListStub,
                 ProductAvailability.SOLD.toString(), ClothingType.JACKET_TYPE.toString(),
                 ClothingSize.S_SIZE.toString(), ClothingTheme.ANIMAL_THEME.toString(), TEST_CUT_TYPE_1);
@@ -214,6 +225,7 @@ class ClothingServiceTest {
     @Test
     void testGetClothesSalesStatistics() {
         when(clothingDaoMock.getAllSoldClothes()).thenReturn(clothingListStub);
+
         Map<String, Double> testClothingStatistics = clothingService.getClothesSalesStatistics(new int[0]);
 
         assertEquals(44, testClothingStatistics.size());
@@ -271,6 +283,7 @@ class ClothingServiceTest {
     void testGetClothesSalesStatisticsForSpecificMonth() {
         int[] monthAndYear = new int[]{10, 2018};
         when(clothingDaoMock.getAllSoldClothesForMonth(monthAndYear)).thenReturn(clothingListStub);
+
         Map<String, Double> testClothingStatistics = clothingService.getClothesSalesStatistics(monthAndYear);
 
         assertEquals(44, testClothingStatistics.size());

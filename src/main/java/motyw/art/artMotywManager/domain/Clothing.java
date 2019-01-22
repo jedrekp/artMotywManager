@@ -30,7 +30,7 @@ public class Clothing extends Product {
     private ClothingTheme theme;
     @NotNull
     @NotBlank(groups = {AddValidation.class, EditValidation.class}, message = "{notEmpty}")
-    @Size(groups = {AddValidation.class},max = 20, message = "{cutType.tooLong")
+    @Size(groups = {AddValidation.class}, max = 20, message = "{cutType.tooLong")
     @Column(name = "cut_type")
     private String cutType;
 
@@ -44,6 +44,10 @@ public class Clothing extends Product {
         this.size = size;
         this.theme = theme;
         this.cutType = cutType;
+    }
+
+    public Clothing(String id){
+        this.id = id;
     }
 
     public Clothing() {
