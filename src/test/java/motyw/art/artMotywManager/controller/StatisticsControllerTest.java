@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import java.util.HashMap;
 import java.util.Map;
 
-import static motyw.art.artMotywManager.util.StaticValues.*;
+import static motyw.art.artMotywManager.util.Constants.*;
 import static motyw.art.artMotywManager.util.ViewsAndRedirects.STATISTICS_VIEW;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.hasEntry;

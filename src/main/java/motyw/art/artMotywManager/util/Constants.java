@@ -1,6 +1,6 @@
 package motyw.art.artMotywManager.util;
 
-public class StaticValues {
+public class Constants {
     public static final String MINIMUM_VALID_PRICE = "0";
     public static final String MAXIMUM_VALID_PRICE = "10000";
     public static final String IMAGE_PATTERN = "(.*/)*.+\\.(png|jpg|gif|jpeg|PNG|JPG|GIF|JPEG)$";

@@ -6,12 +6,11 @@ import motyw.art.artMotywManager.util.ProductAvailability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
 
-import static motyw.art.artMotywManager.util.StaticValues.*;
+import static motyw.art.artMotywManager.util.Constants.*;
 
 @Service
 public class ProductService {

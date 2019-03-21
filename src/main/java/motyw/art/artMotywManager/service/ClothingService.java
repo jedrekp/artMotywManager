@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static motyw.art.artMotywManager.util.StaticValues.*;
+import static motyw.art.artMotywManager.util.Constants.*;
 
 
 @Service

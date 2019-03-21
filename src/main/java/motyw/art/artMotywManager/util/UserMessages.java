@@ -12,6 +12,7 @@ public enum UserMessages {
     }
 
     public String getUserMessage() {
+        System.out.println();
         return userMessage;
     }
 }

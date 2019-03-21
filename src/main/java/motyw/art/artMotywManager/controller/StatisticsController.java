@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static motyw.art.artMotywManager.util.StaticValues.MONTHLY_STATISTICS_TITLE;
-import static motyw.art.artMotywManager.util.StaticValues.STATISTICS_TITLE;
+import static motyw.art.artMotywManager.util.Constants.MONTHLY_STATISTICS_TITLE;
+import static motyw.art.artMotywManager.util.Constants.STATISTICS_TITLE;
 import static motyw.art.artMotywManager.util.ViewsAndRedirects.REDIRECT_TO_STATISTICS;
 import static motyw.art.artMotywManager.util.ViewsAndRedirects.STATISTICS_VIEW;
 

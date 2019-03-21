@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Pattern;
 
-import static motyw.art.artMotywManager.util.StaticValues.IMAGE_PATTERN;
+import static motyw.art.artMotywManager.util.Constants.IMAGE_PATTERN;
 
 public class ImageFileValidator implements ConstraintValidator<ImageFile, CommonsMultipartFile> {
 
