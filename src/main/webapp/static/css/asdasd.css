@@ -1,0 +1,90 @@
+body {
+    background-color: #F1F1F1;
+}
+
+.bg-lightblue {
+    background-color: #80bfff;
+    color: black;
+}
+
+.bg-darkblue {
+    background-color: #000033;
+    color: white;
+}
+
+.bg-greylike {
+    background-color:#F1F1F1;
+    color: black;
+}
+
+.bg-midyellow{
+    background-color: #FFD275;
+    color: black;
+}
+
+.bg-lightyellow{
+    background-color: #FFF2D9;
+    color: black;
+}
+
+.navbar-nav {
+    font-size: 16px;
+}
+
+.navbar-nav > li > .dropdown-menu>a:hover {
+    background-color: #FFD275;
+}
+
+.nav-item:hover {
+    font-weight: bold !important;
+}
+
+@media (max-width: 991px) {
+    .form-inline {
+        max-width: 200px !important;
+    }
+
+    .container>.row{
+        width: 100% !important;
+    }
+
+    .container-border{
+        border: 0 !important;
+    }
+
+    .container>table{
+        width: 100% !important;
+    }
+
+    .container>h4{
+        width: 100% !important;
+    }
+}
+
+.form-inline {
+    max-width: 420px;
+    font-size: 10px;
+}
+
+.custom-select{
+    font-size: 16px;
+}
+
+.width-one-third {
+    width: 33.3%;
+}
+
+.border-darkblue,.border-darkblue:hover {
+    border: 3px solid #181818;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+}
+
+.upload-input-group{
+    margin-top: -25px;
+}
+
+

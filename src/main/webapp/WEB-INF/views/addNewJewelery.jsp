@@ -9,7 +9,10 @@
 <html>
 <head>
     <title>AMM - Nowy produkt</title>
-    <link href="<c:url value="/static/css/amm.css" />" rel="stylesheet"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="<c:url value="/static/css/bootstrap.css" />" rel="stylesheet"/>
+    <link href="<c:url value="/static/css/asdasd.css" />" rel="stylesheet"/>
 </head>
 <body>
 
