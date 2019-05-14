@@ -13,37 +13,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="<c:url value="/static/css/bootstrap.css" />" rel="stylesheet"/>
-    <link href="<c:url value="/static/css/asdasd.css" />" rel="stylesheet"/>
+    <link href="<c:url value="/static/css/motyw.css" />" rel="stylesheet"/>
 </head>
 <body>
 
 
 <jsp:include page="navbar.jsp"/>
 
-<div class="container container-border text-center py-5">
+<div class="container text-center py-5">
 
     <h2 class="font-weight-bold mb-5">Liczba produktów spełniających kryteria - ${fn:length(productList)} </h2>
 
     <c:forEach items="${productList}" var="product">
 
-        <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Clothing')}">
-            <h4 class="bg-darkblue mt-5 p-3 w-75 mx-auto mb-0">Ubranie - <c:out value="${product.id}"/></h4>
-        </c:if>
 
-        <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Jewelery')}">
-            <h4 class="bg-darkblue mt-5 p-3 w-75 mx-auto mb-0">Biżuteria - <c:out value="${product.id}"/></h4>
-        </c:if>
+        <div class="row w-75 mx-auto mb-5 pt-3 pb-4 bg-midyellow border-darkblue">
 
-        <div class="row w-75 mx-auto mt-0 py-4 bg-midyellow ">
+            <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Clothing')}">
+                <h3 class="py-0 pb-0 my-0 w-75 mx-auto">Ubranie - <c:out value="${product.id}"/></h3>
+            </c:if>
 
-            <div class="col-lg-4">
+            <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Jewelery')}">
+                <h3 class="py-0 my-0 w-75 mx-auto">Biżuteria - <c:out value="${product.id}"/></h3>
+            </c:if>
+
+            <div class="col-lg-4 mt-3 mt-lg-0">
 
                 <c:if test="${not empty product.imageData}">
-                    <img src="<c:url value="/image/displayImage?id=${product.id}"/>" height="280" width="180" class="mb-4 mt-2 mb-lg-2"/>
+                    <img src="<c:url value="/image/displayImage?id=${product.id}"/>" height="280" width="180" class="img-thumbnail mb-4 mt-2 mb-lg-2"/>
                 </c:if>
 
                 <c:if test="${empty product.imageData}">
-                    <img src="${pageContext.request.contextPath}/static/images/artMotywLogo.jpg" height="280" width="180" class="mb-4 mt-2 mb-lg-2"/>
+                    <img src="${pageContext.request.contextPath}/static/images/artMotywLogo.jpg" height="280" width="180" class="img-thumbnail mb-4 mt-2 mb-lg-2"/>
                 </c:if>
 
             </div>
@@ -52,7 +53,7 @@
 
                 <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Jewelery')}">
 
-                    <table class="table table-striped table-borderless table-light bg-midyellow text-center">
+                    <table class="table table-striped table-borderless table-light bg-midyellow text-center mt-3">
                         <tr>
                             <td>Dostępność</td>
                             <td><c:out value="${product.availability.availabilityStatus}"/></td>
@@ -75,18 +76,18 @@
 
                 <c:if test="${product['class'].name.equals('motyw.art.artMotywManager.domain.Clothing')}">
 
-                    <table class="table table-striped table-borderless table-light bg-midyellow text-center">
+                    <table class="table table-striped table-borderless table-light bg-midyellow text-center mt-3">
                         <tr>
                             <td>Dostępność</td>
                             <td><c:out value="${product.availability.availabilityStatus}"/></td>
                         </tr>
                         <tr>
-                            <td>Rozmiar</td>
-                            <td><c:out value="${product.size.sizeName}"/></td>
+                            <td>Typ</td>
+                            <td><c:out value="${product.clothingType.typeName}"/></td>
                         </tr>
                         <tr>
-                            <td>Rodzaj</td>
-                            <td><c:out value="${product.clothingType.typeName}"/></td>
+                            <td>Rozmiar</td>
+                            <td><c:out value="${product.size.sizeName}"/></td>
                         </tr>
                         <tr>
                             <td>Motyw</td>

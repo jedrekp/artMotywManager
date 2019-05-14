@@ -26,8 +26,8 @@
                     <a class="nav-link " href="" role="button" data-toggle="dropdown">Dodaj</a>
 
                     <div class="dropdown-menu bg-lightyellow">
-                        <a class="dropdown-item" href="<c:url value="/jewelery/addNewJewelery" />">Nowa biżuteria</a>
                         <a class="dropdown-item" href="<c:url value="/clothing/addNewClothing" />">Nowe ubranie</a>
+                        <a class="dropdown-item" href="<c:url value="/jewelery/addNewJewelery" />">Nowa biżuteria</a>
                     </div>
 
                 </li>
@@ -36,8 +36,8 @@
                     <a class="nav-link " href="" id="navbarDropdown" role="button" data-toggle="dropdown">Wyszukaj</a>
 
                     <div class="dropdown-menu bg-lightyellow">
-                        <a class="dropdown-item" href="<c:url value="/jewelery/filterJewelery" />">Biżuteria</a>
                         <a class="dropdown-item" href="<c:url value="/clothing/filterClothes" />">Ubrania</a>
+                        <a class="dropdown-item" href="<c:url value="/jewelery/filterJewelery" />">Biżuteria</a>
                         <a class="dropdown-item" href="<c:url value="/product/showAllProducts" />">Pokaż wszystkie produkty</a>
                     </div>
 

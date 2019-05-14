@@ -12,13 +12,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="<c:url value="/static/css/bootstrap.css" />" rel="stylesheet"/>
-    <link href="<c:url value="/static/css/asdasd.css" />" rel="stylesheet"/>
+    <link href="<c:url value="/static/css/motyw.css" />" rel="stylesheet"/>
 </head>
 <body>
 
     <jsp:include page="navbar.jsp"/>
 
-    <div class="container container-border text-center py-5 px-md-5">
+    <div class="container text-center py-5 px-md-5">
 
         <h2 class="mb-5 font-weight-bold"><c:out value="${title}"/></h2>
 
@@ -218,7 +218,7 @@
             </tr>
         </table>
 
-        <h4 class="mt-5 bg-darkblue p-3 text-light w-75 mx-auto"> Ubrania - statystyki szczegółowe</h4>
+        <h4 class="mt-5 bg-darkblue p-3 text-light w-75 mx-auto"> Biżuteria - statystki wg tworzywa</h4>
         <table class="table striped border-darkblue text-center w-75 mx-auto mb-4">
             <thead class="bg-midyellow">
             <tr>
