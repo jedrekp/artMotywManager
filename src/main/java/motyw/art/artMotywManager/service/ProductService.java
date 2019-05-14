@@ -37,6 +37,11 @@ public class ProductService {
     public void setProductImageData(Product product) {
         if (product.getImageFile() != null && product.getImageFile().getSize() != 0) {
             product.setImageData(product.getImageFile().getBytes());
+        } else { //keep previous image if it was not changed by user
+            Product previousProduct = findById(product.getId());
+            if (previousProduct != null) {
+                product.setImageData(previousProduct.getImageData());
+            }
         }
     }
 

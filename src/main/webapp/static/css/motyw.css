@@ -13,16 +13,16 @@ body {
 }
 
 .bg-greylike {
-    background-color:#F1F1F1;
+    background-color: #F1F1F1;
     color: black;
 }
 
-.bg-midyellow{
+.bg-midyellow {
     background-color: #FFD275;
     color: black;
 }
 
-.bg-lightyellow{
+.bg-lightyellow {
     background-color: #FFF2D9;
     color: black;
 }
@@ -31,7 +31,7 @@ body {
     font-size: 16px;
 }
 
-.navbar-nav > li > .dropdown-menu>a:hover {
+.navbar-nav > li > .dropdown-menu > a:hover {
     background-color: #FFD275;
 }
 
@@ -44,19 +44,15 @@ body {
         max-width: 200px !important;
     }
 
-    .container>.row{
+    .container > .row {
         width: 100% !important;
     }
 
-    .container-border{
-        border: 0 !important;
-    }
-
-    .container>table{
+    .container > table {
         width: 100% !important;
     }
 
-    .container>h4{
+    .container > h4 {
         width: 100% !important;
     }
 }
@@ -66,7 +62,7 @@ body {
     font-size: 10px;
 }
 
-.custom-select{
+.custom-select {
     font-size: 16px;
 }
 
@@ -74,7 +70,8 @@ body {
     width: 33.3%;
 }
 
-.border-darkblue,.border-darkblue:hover {
+.border-darkblue,
+.border-darkblue:hover {
     border: 3px solid #181818;
 }
 
@@ -83,8 +80,14 @@ body {
     border: 0;
 }
 
-.upload-input-group{
-    margin-top: -25px;
+.img-thumbnail {
+    border: 3px solid #000033;
+    padding: 0;
+}
+
+.input-group>.custom-select,
+.input-group>.form-control{
+    border: 2px solid gray;
 }
 
 
